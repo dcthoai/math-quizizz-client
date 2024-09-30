@@ -21,7 +21,7 @@ public class LoginFrame extends JFrame {
 
         // Thiết lập tiêu đề và kích thước cho frame
         setTitle("Login");
-        setSize(600, 400);
+        setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
