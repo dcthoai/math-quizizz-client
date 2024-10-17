@@ -1,28 +1,71 @@
 package math.client.controller;
 
-import math.client.service.impl.UserServiceImpl;
-import math.client.view.LoginFrame;
+import math.client.service.impl.UserService;
+import math.client.view.LoginView;
+import math.client.view.Popup;
+import math.client.view.RegisterView;
 
 /**
  *
- * @author dctho
+ * @author dcthoai
  */
-public class UserController {
-    private LoginFrame loginFrame;
-    private UserServiceImpl userService;
+public class UserController implements Runnable {
+
+    private final LoginView loginView;
+    private final RegisterView registerView;
+    private final UserService userService;
 
     public UserController() {
-        loginFrame = new LoginFrame(this);
-        loginFrame.display();
-        userService = new UserServiceImpl();
+        this.loginView = new LoginView();
+        this.registerView = new RegisterView();
+        this.userService = new UserService();
     }
-    
-    public void login(String username, String password) {
-        boolean success = userService.login(username, password);
-        
-        if (success)
-            System.out.println("Login success");
-        else
-            System.out.println("Login failed");
+
+    private void switchToRegisterView() {
+        loginView.hideView();
+        registerView.open();
+    }
+
+    public void switchToLoginView() {
+        System.out.println("Switching to Login View");
+        loginView.open();
+        registerView.hideView();
+    }
+
+    private void register() {
+
+    }
+
+    private void login() {
+        String username = loginView.getUsername();
+        String password = loginView.getPassword();
+
+        boolean isLoginSuccess = userService.login(username.strip(), password.strip());
+
+        if (isLoginSuccess) {
+            Popup.notify("Success", "Đăng nhập thành công");
+//            exitComponent();
+        } else {
+            Popup.notify("Error", "Đăng nhập thất bại");
+
+//            Popup.confirmDialog("Confirm", "Bạn có chắc chắn muốn xóa cái này không?", event -> {
+//                System.out.println("ok");
+//            });
+        }
+    }
+
+    private void exitComponent() {
+        loginView.exit();
+        registerView.exit();
+    }
+
+    @Override
+    public void run() {
+        loginView.open();
+        loginView.getLoginButton().addActionListener(event -> login());
+        loginView.getRegisterButton().addActionListener(event -> switchToRegisterView());
+
+        registerView.getBackButton().addActionListener(event -> switchToLoginView());
+        registerView.getRegisterButton().addActionListener(event -> register());
     }
 }

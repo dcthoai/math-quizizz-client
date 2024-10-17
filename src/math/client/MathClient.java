@@ -9,6 +9,6 @@ import math.client.controller.UserController;
 public class MathClient {
 
     public static void main(String[] args) {
-        new UserController();
+        new UserController().run();
     }
 }

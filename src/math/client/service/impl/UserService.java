@@ -1,41 +1,43 @@
 package math.client.service.impl;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.google.gson.Gson;
 import math.client.connection.ConnectionUtils;
-import math.client.controller.UserController;
+import math.client.dto.request.BaseRequest;
+import math.client.dto.response.BaseResponse;
 import math.client.model.User;
-import math.client.service.UserService;
+import math.client.service.IUserService;
 
 /**
  *
  * @author dctho
  */
-public class UserServiceImpl implements UserService {
+public class UserService implements IUserService {
     
     private ConnectionUtils connection;
-    private static final Logger log = Logger.getLogger(UserController.class.getName());
 
-    public UserServiceImpl() {
+    public UserService() {
         try {
             connection = new ConnectionUtils();
         } catch (Exception e) {
             e.printStackTrace();
-            log.log(Level.SEVERE, "Failed to create a connection. " + e.getMessage()); // ERROR level log
         }
     }
 
     @Override
     public boolean login(String username, String password) {
         try {
+            Gson gson = new Gson();
             User user = new User(username, password);
-            connection.sendData(user);
+            BaseRequest baseRequest = new BaseRequest("/user/login", gson.toJson(user));
 
-            Object response = connection.receiveData();
-            
-            return true;
+            connection.sendData(gson.toJson(baseRequest));
+            String response = connection.receiveData();
+            BaseResponse baseResponse = gson.fromJson(response, BaseResponse.class);
+
+            return baseResponse.getStatus();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("exception");
         }
         
         return false;

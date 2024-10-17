@@ -4,7 +4,7 @@ package math.client.service;
  *
  * @author dctho
  */
-public interface UserService {
+public interface IUserService {
     boolean login(String username, String password);
     boolean logout();
 }

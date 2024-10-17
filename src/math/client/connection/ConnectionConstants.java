@@ -7,5 +7,5 @@ package math.client.connection;
 public interface ConnectionConstants {
     public static final String SERVER_HOST = "localhost";
     
-    public static final Integer SERVER_PORT = 8080;
+    public static final Integer SERVER_PORT = 8888;
 }
