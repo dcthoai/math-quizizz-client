@@ -14,7 +14,7 @@ public class RegisterView extends AbstractView {
 
     public RegisterView() {
         super("Đăng ký", 500, 320);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         generateView();
     }
 

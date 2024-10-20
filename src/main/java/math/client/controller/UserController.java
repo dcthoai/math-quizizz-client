@@ -27,13 +27,22 @@ public class UserController implements Runnable {
     }
 
     public void switchToLoginView() {
-        System.out.println("Switching to Login View");
         loginView.open();
         registerView.hideView();
     }
 
     private void register() {
+        String username = registerView.getUsername();
+        String password = registerView.getPassword();
 
+        boolean isRegisterSuccess = userService.register(username.strip(), password.strip());
+
+        if (isRegisterSuccess) {
+            switchToLoginView();
+            Popup.notify("Success", "Đăng ký thành công");
+        } else {
+            Popup.notify("Error", "Đăng ký thất bại");
+        }
     }
 
     private void login() {

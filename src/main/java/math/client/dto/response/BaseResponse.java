@@ -5,32 +5,44 @@ public class BaseResponse<T> {
     private Integer code;
     private Boolean status;
     private String message;
+    private String action;
     private T result;
 
     public BaseResponse() {}
 
-    public BaseResponse(T result) {
+    public BaseResponse(String action, T result) {
         this.code = 200;
         this.status = true;
         this.message = "Success";
+        this.action = action;
         this.result = result;
     }
 
-    public BaseResponse(Integer code, Boolean status) {
+    public BaseResponse(Integer code, Boolean status, String action) {
         this.code = code;
         this.status = status;
+        this.action = action;
     }
 
-    public BaseResponse(Integer code, Boolean status, String message) {
+    public BaseResponse(Integer code, Boolean status,  String action, String message) {
         this.code = code;
         this.status = status;
         this.message = message;
+        this.action = action;
     }
 
-    public BaseResponse(Integer code, Boolean status, String message, T result) {
+    public BaseResponse(Integer code, Boolean status, String action, T result) {
+        this.code = code;
+        this.status = status;
+        this.action = action;
+        this.result = result;
+    }
+
+    public BaseResponse(Integer code, Boolean status, String action, String message, T result) {
         this.code = code;
         this.status = status;
         this.message = message;
+        this.action = action;
         this.result = result;
     }
 
@@ -64,5 +76,13 @@ public class BaseResponse<T> {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }

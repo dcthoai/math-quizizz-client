@@ -41,3 +41,5 @@ build/
 **/oauth2-secret-key.json
 
 /src/main/resources/database
+
+logs/
