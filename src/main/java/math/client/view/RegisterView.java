@@ -14,7 +14,7 @@ public class RegisterView extends AbstractView {
 
     public RegisterView() {
         super("Đăng ký", 500, 320);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         generateView();
     }
 
@@ -112,5 +112,14 @@ public class RegisterView extends AbstractView {
 
     public boolean validateRePassword() {
         return Objects.equals(getPassword(), rePassword.getText());
+    }
+    
+    public static void main(String[] args) {
+        // Use Swing's event dispatch thread for thread safety
+        SwingUtilities.invokeLater(() -> {
+            // Create and display the RegisterView
+            RegisterView registerView = new RegisterView();
+            registerView.setVisible(true);
+        });
     }
 }
