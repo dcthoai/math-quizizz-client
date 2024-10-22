@@ -67,8 +67,8 @@ public class LoginView extends AbstractView {
 
         // Create a sub-panel to hold the buttons side by side
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
-        buttonPanel.add(loginButton);
         buttonPanel.add(registerButton);
+        buttonPanel.add(loginButton);
 
         // Positioning the Button panel
         gbc.gridx = 0;

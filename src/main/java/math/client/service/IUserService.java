@@ -6,7 +6,4 @@ package math.client.service;
  */
 public interface IUserService {
 
-    boolean register(String username, String password);
-    boolean login(String username, String password);
-    boolean logout();
 }

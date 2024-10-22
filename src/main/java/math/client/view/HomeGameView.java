@@ -17,8 +17,15 @@ public class HomeGameView extends AbstractView {
     private ButtonStyle logoutButton;
     private ButtonStyle exitGameButton;
 
+    public HomeGameView() {
+        super("Math Quizizz", 600, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        generateView("", 0, 0, 0, 0);
+    }
+
     public HomeGameView(String username, int gamesPlayed, double winRate, int score, int rank) {
-        super("Math Quzizz", 600, 600);
+        super("Math Quizizz", 600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         generateView(username, gamesPlayed, winRate, score, rank);
@@ -173,12 +180,5 @@ public class HomeGameView extends AbstractView {
 
     public JButton getExitGameButton() {
         return exitGameButton;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            HomeGameView homeView = new HomeGameView("Player1", 25, 68.5, 1230, 10);
-            homeView.setVisible(true);
-        });
     }
 }

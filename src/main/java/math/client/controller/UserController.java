@@ -1,9 +1,14 @@
 package math.client.controller;
 
-import math.client.service.impl.UserService;
+import com.google.gson.Gson;
+import math.client.dto.request.BaseRequest;
+import math.client.dto.request.UserRequest;
+import math.client.service.utils.ConnectionUtil;
 import math.client.view.LoginView;
 import math.client.view.Popup;
 import math.client.view.RegisterView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -11,14 +16,20 @@ import math.client.view.RegisterView;
  */
 public class UserController implements Runnable {
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final LoginView loginView;
     private final RegisterView registerView;
-    private final UserService userService;
+    private final Gson gson = new Gson();
+    private static final ConnectionUtil connection = ConnectionUtil.getInstance();
+    private static final UserController instance = new UserController();
 
-    public UserController() {
+    private UserController() {
         this.loginView = new LoginView();
         this.registerView = new RegisterView();
-        this.userService = new UserService();
+    }
+
+    public static UserController getInstance() {
+        return instance;
     }
 
     private void switchToRegisterView() {
@@ -26,7 +37,7 @@ public class UserController implements Runnable {
         registerView.open();
     }
 
-    public void switchToLoginView() {
+    private void switchToLoginView() {
         loginView.open();
         registerView.hideView();
     }
@@ -34,33 +45,39 @@ public class UserController implements Runnable {
     private void register() {
         String username = registerView.getUsername();
         String password = registerView.getPassword();
+        UserRequest user = new UserRequest(username.strip(), password.strip());
+        BaseRequest request = new BaseRequest("/api/user/login", gson.toJson(user), "/register");
 
-        boolean isRegisterSuccess = userService.register(username.strip(), password.strip());
+        connection.sendMessageToServer(request, response -> {
+            boolean isRegisterSuccess = response.getStatus();
 
-        if (isRegisterSuccess) {
-            switchToLoginView();
-            Popup.notify("Success", "Đăng ký thành công");
-        } else {
-            Popup.notify("Error", "Đăng ký thất bại");
-        }
+            if (isRegisterSuccess) {
+                switchToLoginView();
+                Popup.notify("Success", response.getMessage());
+            } else {
+                Popup.notify("Error", response.getMessage());
+            }
+        });
     }
 
     private void login() {
         String username = loginView.getUsername();
         String password = loginView.getPassword();
+        UserRequest user = new UserRequest(username.strip(), password.strip());
+        BaseRequest request = new BaseRequest("/api/user/login", gson.toJson(user), "/register");
 
-        boolean isLoginSuccess = userService.login(username.strip(), password.strip());
+        connection.sendMessageToServer(request, response -> {
+            boolean isLoginSuccess = response.getStatus();
 
-        if (isLoginSuccess) {
-            Popup.notify("Success", "Đăng nhập thành công");
-//            exitComponent();
-        } else {
-            Popup.notify("Error", "Đăng nhập thất bại");
+            if (isLoginSuccess) {
+                // Switch to main view here
 
-//            Popup.confirmDialog("Confirm", "Bạn có chắc chắn muốn xóa cái này không?", event -> {
-//                System.out.println("ok");
-//            });
-        }
+                Popup.notify("Success", response.getMessage());
+                exitComponent();
+            } else {
+                Popup.notify("Error", response.getMessage());
+            }
+        });
     }
 
     private void exitComponent() {
@@ -70,6 +87,7 @@ public class UserController implements Runnable {
 
     @Override
     public void run() {
+        log.info("Initialize application view successfully");
         loginView.open();
         loginView.getLoginButton().addActionListener(event -> login());
         loginView.getRegisterButton().addActionListener(event -> switchToRegisterView());

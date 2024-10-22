@@ -1,17 +1,19 @@
 package math.client.dto.response;
 
+import math.client.common.Constants;
+
 public class BaseResponse<T> {
 
     private Integer code;
     private Boolean status;
-    private String message;
     private String action;
+    private String message;
     private T result;
 
     public BaseResponse() {}
 
     public BaseResponse(String action, T result) {
-        this.code = 200;
+        this.code = Constants.SUCCESS;
         this.status = true;
         this.message = "Success";
         this.action = action;

@@ -6,6 +6,7 @@ package math.client.model;
  */
 public class User {
     private String username, password;
+    private Integer id, currentRank, currentPoint, totalPoint;
 
     public User() {}
 
@@ -28,5 +29,37 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getCurrentRank() {
+        return currentRank;
+    }
+
+    public void setCurrentRank(Integer currentRank) {
+        this.currentRank = currentRank;
+    }
+
+    public Integer getCurrentPoint() {
+        return currentPoint;
+    }
+
+    public void setCurrentPoint(Integer currentPoint) {
+        this.currentPoint = currentPoint;
+    }
+
+    public Integer getTotalPoint() {
+        return totalPoint;
+    }
+
+    public void setTotalPoint(Integer totalPoint) {
+        this.totalPoint = totalPoint;
     }
 }
