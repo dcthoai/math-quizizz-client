@@ -71,7 +71,7 @@ public class Router implements Runnable {
         if (Objects.nonNull(method)) {
             try {
                 Object controllerInstance = method.getDeclaringClass().getDeclaredConstructor().newInstance();
-                method.invoke(controllerInstance, response.getResult());
+                method.invoke(controllerInstance, response);
             } catch (Exception e) {
                 log.error("Failed to handle response from server", e);
             }

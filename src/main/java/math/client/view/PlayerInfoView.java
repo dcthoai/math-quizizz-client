@@ -1,31 +1,31 @@
 package math.client.view;
 
 import math.client.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class PlayerInfoView extends AbstractView {
-    private final String nickname;
-    private final int score;
-    private final int rank;
-    private final int totalGames;
-    private final double winRate;
-
-    private final boolean isFriend;
+public class PlayerInfoView extends AbstractView implements Runnable {
+    private final String nickname = "";
+    private final int score = 0;
+    private final int rank = 0;
+    private final int totalGames = 0;
+    private final double winRate = 0;
+    private final boolean isFriend = false;
     private static User user;
+    private static final Logger log = LoggerFactory.getLogger(PlayerInfoView.class);
+    private static final PlayerInfoView instance = new PlayerInfoView();
 
+    public static PlayerInfoView getInstance() {
+        return instance;
+    }
 
-    public PlayerInfoView(String nickname, int score, int rank, int totalGames, double winRate, boolean isFriend) {
+    private PlayerInfoView() {
         super("Player Information", 400, 300);
-        this.nickname = nickname;
-        this.score = score;
-        this.rank = rank;
-        this.totalGames = totalGames;
-        this.winRate = winRate;
-        this.isFriend = isFriend;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         generateView();
     }
 
@@ -118,10 +118,9 @@ public class PlayerInfoView extends AbstractView {
         return label;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            PlayerInfoView view = new PlayerInfoView("Player1", 1500, 3, 25, 0.72, true);
-            view.setVisible(true);
-        });
+    @Override
+    public void run() {
+        log.info("Initialize user info view successfully");
+        open();
     }
 }

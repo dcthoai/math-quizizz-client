@@ -6,22 +6,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FriendRequestView extends AbstractView {
-    private final int id;
+
     private Timer timer;
     private JLabel requestFromLabel;
     private ButtonStyle acceptButton;
     private ButtonStyle declineButton;
     private JLabel autoCloseLabel;
+    private static final FriendRequestView instance = new FriendRequestView();
 
-    public FriendRequestView(int id, String nickname) {
+    public static FriendRequestView getInstance() {
+        return instance;
+    }
+
+    private FriendRequestView() {
         super("Yêu cầu kết bạn", 400, 300);
-        this.id = id;
-        initComponents(nickname);
+        initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
-    private void initComponents(String nickname) {
+    private void initComponents() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -45,7 +49,7 @@ public class FriendRequestView extends AbstractView {
         panel.add(requestTitleLabel, gbc);
 
         // Request from label
-        requestFromLabel = new JLabel("Từ " + nickname + "(ID=" + id + ")", JLabel.CENTER);
+        requestFromLabel = new JLabel("Từ " + "(ID=" + ")", JLabel.CENTER);
         requestFromLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
         requestFromLabel.setForeground(new Color(0, 102, 204));
         gbc.gridy = 2;
@@ -101,10 +105,6 @@ public class FriendRequestView extends AbstractView {
         });
     }
 
-//    private void handleAccept() {
-
-//    }
-
     private void handleDecline() {
         timer.stop();
         JOptionPane.showMessageDialog(this, "Bạn đã từ chối lời mời kết bạn!");
@@ -113,12 +113,5 @@ public class FriendRequestView extends AbstractView {
 
     private void disposeFrame() {
         this.dispose();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            FriendRequestView friendRequestView = new FriendRequestView(123, "User123");
-            friendRequestView.setVisible(true);
-        });
     }
 }

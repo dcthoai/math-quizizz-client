@@ -1,15 +1,26 @@
 package math.client.view;
 
+import math.client.controller.GameController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class GameOverView extends AbstractView {
+public class GameOverView extends AbstractView implements Runnable {
 
-    public GameOverView(int timeTaken, int correctAnswers, int score, int rank, String[][] leaderboard, boolean hasWon) {
+    private static final Logger log = LoggerFactory.getLogger(GameController.class);
+    private static final GameOverView instance = new GameOverView();
+
+    public static GameOverView getInstance() {
+        return instance;
+    }
+
+    private GameOverView() {
         super("Game Over", 450, 440);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        generateView(timeTaken, correctAnswers, score, rank, leaderboard, hasWon);
+        generateView(0, 0, 0, 0, new String[1][1], false);
     }
 
     private void generateView(int timeTaken, int correctAnswers, int score, int rank, String[][] leaderboard, boolean hasWon) {
@@ -113,19 +124,9 @@ public class GameOverView extends AbstractView {
         return String.format("%d:%02d", minutes, seconds);
     }
 
-    public static void main(String[] args) {
-        // Example data for demonstration
-        String[][] leaderboard = {
-                {"1", "Player1", "500"},
-                {"2", "Player2", "450"},
-                {"3", "Player3", "400"},
-                {"4", "Player4", "350"},
-                {"5", "You", "300"}
-        };
-
-        SwingUtilities.invokeLater(() -> {
-            GameOverView gameOverView = new GameOverView(300, 10, 300, 5, leaderboard, false);
-            gameOverView.setVisible(true);
-        });
+    @Override
+    public void run() {
+        log.info("Initialize game over view successfully");
+        open();
     }
 }

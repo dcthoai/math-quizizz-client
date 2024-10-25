@@ -12,6 +12,7 @@ public interface Constants {
     String CONTROLLER_PACKAGE = "math.client.controller";
 
     String NO_ACTION = "NO_ACTION";
+    String NO_BODY = "NO_BODY";
     Integer SUCCESS = 200;
     Integer BAD_REQUEST = 400;
     Integer UNAUTHORIZED = 401;

@@ -7,17 +7,22 @@ import java.awt.*;
 import java.util.List;
 
 public class RoomListView extends AbstractView {
-    private List<String> roomList; // Danh sách phòng
+    private List<String> roomList;
     private DefaultTableModel tableModel;
+    private static final RoomListView instance = new RoomListView();
 
-    public RoomListView() {
+    public static RoomListView getInstance() {
+        return instance;
+    }
+
+    private RoomListView() {
         super("Room List", 300, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         generateView();
     }
 
-    public void generateView() {
+    private void generateView() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -98,16 +103,5 @@ public class RoomListView extends AbstractView {
     public void updateRoomList(List<String> roomList) {
         this.roomList = roomList;
         tableModel.setRowCount(0);
-        // Cập nhật dữ liệu vào bảng
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                RoomListView view = new RoomListView();
-                view.setVisible(true);
-            }
-        });
     }
 }

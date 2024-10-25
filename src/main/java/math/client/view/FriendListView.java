@@ -1,6 +1,8 @@
 package math.client.view;
 
 import math.client.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,15 +12,21 @@ import java.util.List;
 public class FriendListView extends AbstractView {
     private List<User> listFriend;
     private DefaultTableModel tableModel;
+    private static final Logger log = LoggerFactory.getLogger(FriendListView.class);
+    private static final FriendListView instance = new FriendListView();
 
-    public FriendListView() {
+    public static FriendListView getInstance() {
+        return instance;
+    }
+
+    private FriendListView() {
         super("List Friend", 600, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         generateView();
     }
 
-    public void generateView() {
+    private void generateView() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -108,14 +116,4 @@ public class FriendListView extends AbstractView {
 //            });
 //        }
 //    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                FriendListView view = new FriendListView();
-                view.setVisible(true);
-            }
-        });
-    }
 }

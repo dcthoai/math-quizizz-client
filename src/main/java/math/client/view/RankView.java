@@ -1,6 +1,6 @@
 package math.client.view;
 
-import math.client.model.User; // Thay thế bằng mô hình người chơi của bạn
+import math.client.model.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -9,12 +9,17 @@ import java.awt.*;
 import java.util.List;
 
 public class RankView extends AbstractView {
-    private List<User> listRank; // Danh sách người dùng cho xếp hạng
-    private DefaultTableModel tableModel;
 
-    public RankView() {
+    private DefaultTableModel tableModel;
+    private static final RankView instance = new RankView();
+
+    public static RankView getInstance() {
+        return instance;
+    }
+
+    private RankView() {
         super("Rank List", 420, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         generateView();
     }
@@ -23,11 +28,8 @@ public class RankView extends AbstractView {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-
         JLabel labelListRank = new JLabel("Bảng xếp hạng");
         labelListRank.setFont(new Font("Roboto", Font.BOLD, 24));
-
-
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -37,14 +39,7 @@ public class RankView extends AbstractView {
 
         String[] columnNames = {"Nickname", "Score", "Rank"};
 
-        Object[][] data = {
-                {"Player 1", "2000", "1"},
-                {"Player 2", "1500", "2"},
-                {"Player 3", "1200", "3"},
-                {"Player 4", "1000", "4"}
-        };
-
-        tableModel = new DefaultTableModel(data, columnNames);
+        tableModel = new DefaultTableModel(columnNames, 0);
         JTable rankTable = new JTable(tableModel);
         rankTable.setFillsViewportHeight(true);
         rankTable.setDefaultEditor(Object.class, null);
@@ -70,19 +65,10 @@ public class RankView extends AbstractView {
         rankTable.getColumnModel().getColumn(1).setResizable(false);
         rankTable.getColumnModel().getColumn(2).setResizable(false);
 
-        rankTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = rankTable.rowAtPoint(evt.getPoint());
-                if (row >= 0) {
-                    String username = (String) rankTable.getValueAt(row, 0);
-                    System.out.println("Click on " + username);
-                }
-            }
-        });
-
         // Căn giữa nội dung trong bảng
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
         for (int i = 0; i < columnNames.length; i++) {
             rankTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
@@ -101,27 +87,13 @@ public class RankView extends AbstractView {
         getContentPane().add(panel);
     }
 
-//    public void setDataToTable(List<User> users) {
-//        this.listRank = users;
-//        tableModel.setRowCount(0);
-//        int i = 0;
-//        for (User user : listRank) {
-//            tableModel.addRow(new Object[]{
-//                    user.getNickname(),
-//                    user.geScore(),
-//                    user.getRank()
-//            });
-//            i++;
-//        }
-//    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                RankView view = new RankView();
-                view.setVisible(true);
-            }
-        });
+    public void setDataToTable(List<User> users) {
+        for (User user : users) {
+            tableModel.addRow(new Object[]{
+                    user.getUsername(),
+                    user.getScore(),
+                    user.getRank()
+            });
+        }
     }
 }

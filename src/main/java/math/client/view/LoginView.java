@@ -13,14 +13,19 @@ public class LoginView extends AbstractView {
     private JButton registerButton;
     private JTextField username;
     private JPasswordField password;
+    private static final LoginView instance = new LoginView();
 
-    public LoginView() {
+    public static LoginView getInstance() {
+        return instance;
+    }
+
+    private LoginView() {
         super("Đăng nhập", 500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         generateView();
     }
 
-    void generateView() {
+    private void generateView() {
         // Create a container with GridBagLayout
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

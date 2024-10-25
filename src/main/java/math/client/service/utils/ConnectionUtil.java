@@ -106,7 +106,7 @@ public class ConnectionUtil implements Runnable {
         try {
             closeConnection();
 
-            for (int attempt = 1; attempt <= 5; ++attempt) { // Maximum 5 attempts
+            for (int attempt = 1; attempt <= 120; ++attempt) { // Maximum 120 attempts
                 try {
                     log.info("Attempting to reconnect... (Attempt " + attempt + ")");
                     connect();
@@ -115,14 +115,14 @@ public class ConnectionUtil implements Runnable {
                     log.error("Reconnect attempt failed", e);
 
                     try {
-                        Thread.sleep(2000); // Wait 2 seconds before reconnect if it has an error
+                        Thread.sleep(5000); // Wait 5 seconds before reconnect if it has an error
                     } catch (InterruptedException ie) {
                         log.error("Reconnect sleep interrupted", ie);
                     }
                 }
             }
 
-            log.error("Could not reconnect to the server after 5 attempts.");
+            log.error("Could not reconnect to the server after 120 attempts (10 minutes).");
         } catch (IOException e) {
             log.error("Cannot close connection", e);
         }

@@ -1,10 +1,12 @@
 package math.client.view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
 public class GameView extends AbstractView {
 
@@ -20,24 +22,21 @@ public class GameView extends AbstractView {
     private int score = 0;
     private int targetResult;
     private int[] numbers = new int[5];
+    private static final Logger log = LoggerFactory.getLogger(GameView.class);
+    private static final GameView instance = new GameView();
 
-    public GameView(int targetResult, String username) {
+    public static GameView getInstance() {
+        return instance;
+    }
+
+    private GameView() {
         super("Game Screen", 420, 400);
-        this.targetResult = targetResult;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        generateRandomNumbers();
-        generateView(username);
+        generateView();
         startCountdownTimer();
     }
 
-    private void generateRandomNumbers() {
-        Random rand = new Random();
-        for (int i = 0; i < 5; i++) {
-            numbers[i] = rand.nextInt(101);
-        }
-    }
-
-    private void generateView(String username) {
+    private void generateView() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -71,7 +70,7 @@ public class GameView extends AbstractView {
         rankLabel.setFont(new Font("Roboto", Font.BOLD, 14));
 
         // Username label
-        usernameLabel = new JLabel("Player: " + username);
+        usernameLabel = new JLabel("Player: ");
         usernameLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 
         // Add username label to the top right corner
@@ -122,15 +121,6 @@ public class GameView extends AbstractView {
         panel.add(buttonPanel, gbc);
 
         add(panel);
-
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                evaluateAnswer();
-            }
-        });
-
-        quitButton.addActionListener(e -> dispose());
     }
 
     private void startCountdownTimer() {
@@ -158,33 +148,5 @@ public class GameView extends AbstractView {
         } else {
             timeLabel.setForeground(Color.BLACK);
         }
-    }
-
-    // Check player's answer
-    private void evaluateAnswer() {
-        try {
-            int playerAnswer = Integer.parseInt(answerField.getText());
-            if (playerAnswer == targetResult) {
-                score += 100; // Increase score
-                scoreLabel.setText("Score: " + score);
-                rankLabel.setText("Rank: " + calculateRank(score)); // Update ranking
-                JOptionPane.showMessageDialog(this, "Correct! You achieved the result.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Incorrect. Try again.");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid number.");
-        }
-    }
-
-    private int calculateRank(int score) {
-        return 5;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            GameView gameView = new GameView(50, "Player1");
-            gameView.setVisible(true);
-        });
     }
 }
