@@ -3,7 +3,6 @@ package math.client.controller;
 import com.google.gson.Gson;
 import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
-import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
 import math.client.service.utils.SessionManager;
@@ -11,7 +10,6 @@ import math.client.view.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Action("/home")
 public class HomeController implements Runnable, RouterMapping {
 
     private static final Logger log = LoggerFactory.getLogger(HomeController.class);
@@ -27,18 +25,9 @@ public class HomeController implements Runnable, RouterMapping {
         return instance;
     }
 
-    private void quickPlay() {
-//        RoomController.getInstance().openRoomListView();
-        GameController.getInstance().run();
-    }
-
-    private void userInfo() {
-        PlayerInfoView.getInstance().run();
-    }
-
     private void createRoom() {
         homeView.hideView();
-        RoomController.getInstance().openNewRoom();
+        RoomController.getInstance().createNewRoom();
     }
 
     private void findRoom() {
@@ -51,6 +40,10 @@ public class HomeController implements Runnable, RouterMapping {
 
     private void viewRanking() {
         RankingController.getInstance().run();
+    }
+
+    private void userInfo() {
+        PlayerInfoView.getInstance().run();
     }
 
     private void logout() {
@@ -69,11 +62,6 @@ public class HomeController implements Runnable, RouterMapping {
         });
     }
 
-    private void exitGame() {
-        exitComponent();
-        System.exit(0); // Shutdown application (No error)
-    }
-
     private void exitComponent() {
         homeView.exit();
     }
@@ -83,13 +71,11 @@ public class HomeController implements Runnable, RouterMapping {
         log.info("Initialize home controller successfully");
         homeView.open();
 
-        homeView.getQuickPlayButton().addActionListener(event -> quickPlay());
-        homeView.getUserInfoButton().addActionListener(event -> userInfo());
         homeView.getCreateRoomButton().addActionListener(event -> createRoom());
         homeView.getFindRoomButton().addActionListener(event -> findRoom());
+        homeView.getRankingButton().addActionListener(event -> viewRanking());
+        homeView.getUserInfoButton().addActionListener(event -> userInfo());
         homeView.getFriendListButton().addActionListener(event -> viewFriendList());
-        homeView.getLeaderboardButton().addActionListener(event -> viewRanking());
         homeView.getLogoutButton().addActionListener(event -> logout());
-        homeView.getExitGameButton().addActionListener(event -> exitGame());
     }
 }

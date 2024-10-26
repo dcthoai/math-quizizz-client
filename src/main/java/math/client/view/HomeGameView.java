@@ -12,14 +12,12 @@ public class HomeGameView extends AbstractView {
     private JLabel winRateLabel;
     private JLabel scoreLabel;
     private JLabel rankLabel;
-    private ButtonStyle quickPlayButton;
-    private ButtonStyle userInfoButton;
     private ButtonStyle createRoomButton;
     private ButtonStyle findRoomButton;
+    private ButtonStyle userInfoButton;
     private ButtonStyle friendListButton;
-    private ButtonStyle leaderboardButton;
+    private ButtonStyle rankingButton;
     private ButtonStyle logoutButton;
-    private ButtonStyle exitGameButton;
     private static final HomeGameView instance = new HomeGameView();
 
     public static HomeGameView getInstance() {
@@ -105,52 +103,35 @@ public class HomeGameView extends AbstractView {
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // Tạo các nút
-        quickPlayButton = new ButtonStyle("Chơi Nhanh", 150, 30);
-        userInfoButton = new ButtonStyle("Tài khoản", 150, 30);
-        createRoomButton = new ButtonStyle("Tạo Phòng", 150, 30);
+        createRoomButton = new ButtonStyle("Tạo phòng", 150, 30);
         findRoomButton = new ButtonStyle("Tìm Phòng", 150, 30);
-        friendListButton = new ButtonStyle("Danh Sách Bạn Bè", 150, 30);
-        leaderboardButton = new ButtonStyle("Bảng Xếp Hạng", 150, 30);
-        logoutButton = new ButtonStyle("Đăng Xuất", 150, 30);
-        exitGameButton = new ButtonStyle("Thoát Game", 150, 30);
+        userInfoButton = new ButtonStyle("Tài khoản", 150, 30);
+        friendListButton = new ButtonStyle("Danh sách bạn bè", 150, 30);
+        rankingButton = new ButtonStyle("Bảng xếp hạng", 150, 30);
+        logoutButton = new ButtonStyle("Đăng xuất", 150, 30);
 
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
         gbc.insets = new Insets(10, 15, 10, 15);
 
-        //quickPlay, findRoom, createRoom
         gbc.gridx = 0;
         gbc.gridy = 0;
-        buttonPanel.add(quickPlayButton, gbc);
+        buttonPanel.add(createRoomButton, gbc);
         gbc.gridx = 1;
         buttonPanel.add(findRoomButton, gbc);
         gbc.gridx = 2;
-        buttonPanel.add(createRoomButton, gbc);
+        buttonPanel.add(rankingButton, gbc);
 
-        //searchRoom, listFriend, leaderBoard
         gbc.gridx = 0;
         gbc.gridy = 1;
-        buttonPanel.add(friendListButton, gbc);
-        gbc.gridx = 1;
-        buttonPanel.add(leaderboardButton, gbc);
-        gbc.gridx = 2;
         buttonPanel.add(userInfoButton, gbc);
-
-        //Logout, exitGame
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        buttonPanel.add(logoutButton, gbc);
+        gbc.gridx = 1;
+        buttonPanel.add(friendListButton, gbc);
         gbc.gridx = 2;
-        buttonPanel.add(exitGameButton, gbc);
+        buttonPanel.add(logoutButton, gbc);
 
         return buttonPanel;
-    }
-
-    public JButton getQuickPlayButton() {
-        return quickPlayButton;
     }
 
     public JButton getUserInfoButton() {
@@ -169,16 +150,12 @@ public class HomeGameView extends AbstractView {
         return friendListButton;
     }
 
-    public JButton getLeaderboardButton() {
-        return leaderboardButton;
+    public JButton getRankingButton() {
+        return rankingButton;
     }
 
     public JButton getLogoutButton() {
         return logoutButton;
-    }
-
-    public JButton getExitGameButton() {
-        return exitGameButton;
     }
 
     public void setUserInfo(User user) {

@@ -27,7 +27,7 @@ public class ConnectionUtil implements Runnable {
     private PrintWriter outputStream;
     private BufferedReader inputStream;
     private final Gson gson = new Gson();
-    private static final Map<String, Consumer<BaseResponse<?>>> callbacks = new HashMap<>();
+    private static final Map<String, Consumer<BaseResponse>> callbacks = new HashMap<>();
     private static final ConnectionUtil instance = new ConnectionUtil();
     private static boolean isListeningResponse = false;
 
@@ -59,12 +59,12 @@ public class ConnectionUtil implements Runnable {
     }
 
     private void handleResponseFromServer(String responseJson) {
-        BaseResponse<?> response = gson.fromJson(responseJson, BaseResponse.class);
+        BaseResponse response = gson.fromJson(responseJson, BaseResponse.class);
         String action = response.getAction();
 
         // Handle response with registered callback, otherwise use router to find handler function based on action
         if (callbacks.containsKey(action)) {
-            Consumer<BaseResponse<?>> callback = callbacks.get(action);
+            Consumer<BaseResponse> callback = callbacks.get(action);
             callback.accept(response);  // Run callback to handle response
             callbacks.remove(action);
         } else {
@@ -156,7 +156,7 @@ public class ConnectionUtil implements Runnable {
     }
 
     // Register a callback function to handle the response when sending a request based on the action
-    public void sendMessageToServer(BaseRequest request, Consumer<BaseResponse<?>> callback) {
+    public void sendMessageToServer(BaseRequest request, Consumer<BaseResponse> callback) {
         if (Objects.nonNull(request) && Objects.nonNull(request.getAction())) {
             callbacks.put(request.getAction(), callback);
         }

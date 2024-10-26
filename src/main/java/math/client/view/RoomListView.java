@@ -7,8 +7,8 @@ import java.awt.*;
 import java.util.List;
 
 public class RoomListView extends AbstractView {
-    private List<String> roomList;
-    private DefaultTableModel tableModel;
+
+    private JTable rooms;
     private static final RoomListView instance = new RoomListView();
 
     public static RoomListView getInstance() {
@@ -45,48 +45,35 @@ public class RoomListView extends AbstractView {
                 {"Room 4", "2/5"}
         };
 
-        tableModel = new DefaultTableModel(data, columnNames);
-        JTable roomTable = new JTable(tableModel);
-        roomTable.setFillsViewportHeight(true);
-        roomTable.setDefaultEditor(Object.class, null); // Ngăn chỉnh sửa nội dung
-        roomTable.setBorder(null);
-        roomTable.setRowHeight(30);
-        roomTable.setFocusable(false);
+        rooms = new JTable(new DefaultTableModel(data, columnNames));
+        rooms.setFillsViewportHeight(true);
+        rooms.setDefaultEditor(Object.class, null); // Ngăn chỉnh sửa nội dung
+        rooms.setBorder(null);
+        rooms.setRowHeight(30);
+        rooms.setFocusable(false);
 
-        roomTable.setFont(new Font("Roboto", Font.PLAIN, 15));
-        roomTable.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 13));
-        roomTable.setBackground(new Color(255, 255, 255));
-        roomTable.getTableHeader().setBackground(Color.LIGHT_GRAY);
+        rooms.setFont(new Font("Roboto", Font.PLAIN, 15));
+        rooms.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 13));
+        rooms.setBackground(new Color(255, 255, 255));
+        rooms.getTableHeader().setBackground(Color.LIGHT_GRAY);
 
-        // Thiết lập độ rộng cột
-        roomTable.getColumnModel().getColumn(0).setMinWidth(60);
-        roomTable.getColumnModel().getColumn(0).setMaxWidth(150);
-        roomTable.getColumnModel().getColumn(1).setMinWidth(60);
-        roomTable.getColumnModel().getColumn(1).setMaxWidth(150);
+        rooms.getColumnModel().getColumn(0).setMinWidth(60);
+        rooms.getColumnModel().getColumn(0).setMaxWidth(150);
+        rooms.getColumnModel().getColumn(1).setMinWidth(60);
+        rooms.getColumnModel().getColumn(1).setMaxWidth(150);
 
-        roomTable.getTableHeader().setReorderingAllowed(false);
-        roomTable.getColumnModel().getColumn(0).setResizable(false);
-        roomTable.getColumnModel().getColumn(1).setResizable(false);
-
-        roomTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = roomTable.rowAtPoint(evt.getPoint());
-                if (row >= 0) {
-                    String roomId = (String) roomTable.getValueAt(row, 0);
-                    System.out.println("Click on " + roomId);
-                    // Thêm logic để xử lý sự kiện click vào phòng (VD: tham gia phòng)
-                }
-            }
-        });
+        rooms.getTableHeader().setReorderingAllowed(false);
+        rooms.getColumnModel().getColumn(0).setResizable(false);
+        rooms.getColumnModel().getColumn(1).setResizable(false);
 
         // Căn giữa nội dung trong bảng
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < columnNames.length; i++) {
-            roomTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            rooms.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        JScrollPane scrollPane = new JScrollPane(roomTable);
+        JScrollPane scrollPane = new JScrollPane(rooms);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -100,8 +87,7 @@ public class RoomListView extends AbstractView {
         getContentPane().add(panel);
     }
 
-    public void updateRoomList(List<String> roomList) {
-        this.roomList = roomList;
-        tableModel.setRowCount(0);
+    public JTable getRoomList() {
+        return rooms;
     }
 }

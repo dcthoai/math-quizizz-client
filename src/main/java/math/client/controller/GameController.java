@@ -29,7 +29,7 @@ public class GameController implements Runnable, RouterMapping {
     }
 
     @Action("/question")
-    public void getQuestion(BaseResponse<?> response) {
+    public void getQuestion(BaseResponse response) {
         System.out.println(response.getMessage());
     }
 

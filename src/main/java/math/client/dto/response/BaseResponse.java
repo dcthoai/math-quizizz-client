@@ -2,22 +2,27 @@ package math.client.dto.response;
 
 import math.client.common.Constants;
 
-public class BaseResponse<T> {
+public class BaseResponse {
 
     private Integer code;
     private Boolean status;
-    private String action;
     private String message;
-    private T result;
+    private String action;
+    private String result;
 
     public BaseResponse() {}
 
-    public BaseResponse(String action, T result) {
+    public BaseResponse(String action, String result) {
         this.code = Constants.SUCCESS;
         this.status = true;
         this.message = "Success";
         this.action = action;
         this.result = result;
+    }
+
+    public BaseResponse(Integer code, Boolean status) {
+        this.code = code;
+        this.status = status;
     }
 
     public BaseResponse(Integer code, Boolean status, String action) {
@@ -26,21 +31,14 @@ public class BaseResponse<T> {
         this.action = action;
     }
 
-    public BaseResponse(Integer code, Boolean status,  String action, String message) {
+    public BaseResponse(Integer code, Boolean status, String action, String message) {
         this.code = code;
         this.status = status;
         this.message = message;
         this.action = action;
     }
 
-    public BaseResponse(Integer code, Boolean status, String action, T result) {
-        this.code = code;
-        this.status = status;
-        this.action = action;
-        this.result = result;
-    }
-
-    public BaseResponse(Integer code, Boolean status, String action, String message, T result) {
+    public BaseResponse(Integer code, Boolean status, String action, String message, String result) {
         this.code = code;
         this.status = status;
         this.message = message;
@@ -64,11 +62,11 @@ public class BaseResponse<T> {
         this.message = message;
     }
 
-    public T getResult() {
+    public String getResult() {
         return result;
     }
 
-    public void setResult(T result) {
+    public void setResult(String result) {
         this.result = result;
     }
 

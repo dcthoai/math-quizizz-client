@@ -65,7 +65,7 @@ public class Router implements Runnable {
         }
     }
 
-    public void handleAction(BaseResponse<?> response) {
+    public void handleAction(BaseResponse response) {
         Method method = routeMap.get(response.getAction());
 
         if (Objects.nonNull(method)) {

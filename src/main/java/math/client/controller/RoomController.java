@@ -1,14 +1,21 @@
 package math.client.controller;
 
 import com.google.gson.Gson;
+import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
+import math.client.dto.response.Room;
 import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
 import math.client.service.utils.SessionManager;
 import math.client.view.*;
+import math.client.view.Popup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @Action("/room")
 public class RoomController implements RouterMapping {
@@ -49,6 +56,18 @@ public class RoomController implements RouterMapping {
 
     public void openRoomListView() {
         roomListView.open();
+
+        roomListView.getRoomList().addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                JTable roomTable = (JTable) evt.getSource();
+                int row = roomTable.rowAtPoint(evt.getPoint());
+
+                if (row >= 0) {
+                    String roomID = (String) roomTable.getValueAt(row, 0);
+
+                }
+            }
+        });
     }
 
     private void searchRoom() {
@@ -64,11 +83,17 @@ public class RoomController implements RouterMapping {
         });
     }
 
-    private void createRoom() {
-
-    }
-
     private void openFriendListView() {
         friendListView.open();
+    }
+
+    public void createNewRoom() {
+        BaseRequest request = new BaseRequest("/api/room/new", Constants.NO_BODY, Constants.NO_ACTION);
+
+        connection.sendMessageToServer(request, response -> {
+            Room room = gson.fromJson(response.getResult(), Room.class);
+
+            System.out.println("RoomID: " + room.getRoomID());
+        });
     }
 }

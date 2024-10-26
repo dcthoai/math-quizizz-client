@@ -28,7 +28,7 @@ public class RankingController implements Runnable, RouterMapping {
 
     private void getRanking() {
         BaseRequest request = new BaseRequest("/api/ranking", Constants.NO_BODY, "/ranking");
-        connection.sendMessageToServer(request, response -> setRankingView((List<User>) response.getResult()));
+//        connection.sendMessageToServer(request, response -> setRankingView((List<User>) response.getResult()));
     }
 
     private void setRankingView(List<User> users) {
