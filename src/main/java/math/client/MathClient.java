@@ -12,8 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *
- * @author dctho
+ * @author dcthoai
  */
 public class MathClient {
 
@@ -24,6 +23,7 @@ public class MathClient {
         System.out.println(Constants.APP_NAME);
         log.info("Start application...");
 
+        // Create a separate thread to listen for responses from the socket server
         pool.execute(() -> ConnectionUtil.getInstance().run());
         Router.getInstance().run();
         SessionManager.getInstance().run();

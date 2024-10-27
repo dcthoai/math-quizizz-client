@@ -62,6 +62,10 @@ public class HomeController implements Runnable, RouterMapping {
         });
     }
 
+    public void openView() {
+        homeView.open();
+    }
+
     private void exitComponent() {
         homeView.exit();
     }

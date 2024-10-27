@@ -3,8 +3,18 @@ package math.client.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.WindowConstants;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.FlowLayout;
+import java.awt.Dimension;
+import java.awt.Insets;
 
 public class SearchRoomView extends AbstractView implements Runnable {
 

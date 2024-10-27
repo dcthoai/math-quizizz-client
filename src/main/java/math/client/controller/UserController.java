@@ -12,12 +12,6 @@ import math.client.view.RegisterView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-
-/**
- *
- * @author dcthoai
- */
 @Action("/user")
 public class UserController implements Runnable, RouterMapping {
 

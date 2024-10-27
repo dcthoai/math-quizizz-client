@@ -1,6 +1,6 @@
 package math.client.view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class AbstractView extends JFrame {
 

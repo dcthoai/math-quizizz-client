@@ -1,8 +1,8 @@
 package math.client.common;
 
 /**
- *
- * @author dctho
+ * All configuration constants and parameters used for the application
+ * @author dcthoai
  */
 public interface Constants {
 

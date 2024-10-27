@@ -5,8 +5,15 @@ import math.client.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * A class to manage user information and other game information during a login session
+ * @author dcthoai
+ */
 public class SessionManager implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(SessionManager.class);

@@ -1,12 +1,18 @@
 package math.client.view;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.FlowLayout;
 
-/**
- *
- * @author dcthoai
- */
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+
 public class LoginView extends AbstractView {
 
     private JButton loginButton;

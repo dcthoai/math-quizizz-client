@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.Room;
-import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
 import math.client.service.utils.SessionManager;
@@ -16,22 +15,30 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-@Action("/room")
 public class RoomController implements RouterMapping {
 
     private static final Logger log = LoggerFactory.getLogger(RoomController.class);
-    private static final SessionManager sessionManager = SessionManager.getInstance();
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
-    private static final RoomController instance = new RoomController();
+    private static final SessionManager sessionManager = SessionManager.getInstance();
+    private static final FriendListView friendListView = FriendListView.getInstance();
     private static final SearchRoomView searchRoomView = SearchRoomView.getInstance();
     private static final RoomListView roomListView = RoomListView.getInstance();
-    private static final RoomView gameView = RoomView.getInstance();
-    private static final FriendListView friendListView = FriendListView.getInstance();
+    private static final RoomView roomView = RoomView.getInstance();
+    private static final RoomController instance = new RoomController();
 
     private final Gson gson = new Gson();
 
-    private RoomController() {}
+    private RoomController() {
+        roomView.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                HomeController.getInstance().openView();
+            }
+        });
+    }
 
     public static RoomController getInstance() {
         return instance;
@@ -44,27 +51,19 @@ public class RoomController implements RouterMapping {
         searchRoomView.getBackButton().addActionListener(event -> searchRoomView.exit());
     }
 
-    public void openNewRoom() {
-        gameView.open();
-
-        gameView.getBtnInvite().addActionListener(event -> openFriendListView());
-        gameView.getBtnLeaveRoom().addActionListener(event -> {
-            gameView.exit();
-            HomeGameView.getInstance().open();
-        });
-    }
-
     public void openRoomListView() {
         roomListView.open();
 
         roomListView.getRoomList().addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mouseClicked(MouseEvent evt) {
                 JTable roomTable = (JTable) evt.getSource();
                 int row = roomTable.rowAtPoint(evt.getPoint());
 
                 if (row >= 0) {
                     String roomID = (String) roomTable.getValueAt(row, 0);
-
+                    System.out.println("Click on " + roomID);
                 }
             }
         });
@@ -93,7 +92,17 @@ public class RoomController implements RouterMapping {
         connection.sendMessageToServer(request, response -> {
             Room room = gson.fromJson(response.getResult(), Room.class);
 
-            System.out.println("RoomID: " + room.getRoomID());
+            roomView.open();
+            roomView.updateView(room);
+
+            roomView.getStartGameButton().addActionListener(event -> {
+                roomView.exit();
+                GameController.getInstance().run();
+            });
+
+            roomView.getInviteButton().addActionListener(event -> {
+
+            });
         });
     }
 }

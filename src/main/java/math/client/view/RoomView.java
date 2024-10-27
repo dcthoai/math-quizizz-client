@@ -1,21 +1,35 @@
 package math.client.view;
 
-import math.client.model.User;
+import math.client.dto.response.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.BorderFactory;
+import javax.swing.Timer;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Dimension;
+
 import java.util.List;
+import java.util.Objects;
 
 public class RoomView extends AbstractView {
 
-    private ButtonStyle btnInvite;
-    private ButtonStyle btnLeaveRoom;
-    private String roomId;
+    private final JLabel[] players = new JLabel[5];
+    private ButtonStyle inviteButton;
+    private ButtonStyle startGameButton;
+    private JLabel roomIDLabel;
+    private JLabel roomPlayersQuantityLabel;
     private Timer countdownTimer;
-    private List<User> listPlayer;
-    private int playerCount;
     private static final Logger log = LoggerFactory.getLogger(RoomView.class);
     private static final RoomView instance = new RoomView();
 
@@ -24,8 +38,8 @@ public class RoomView extends AbstractView {
     }
 
     private RoomView() {
-        super("Tạo phòng mới", 500, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super("Phòng chơi mới", 480, 420);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         generateView();
     }
 
@@ -42,6 +56,7 @@ public class RoomView extends AbstractView {
         panel.add(panelInfo, gbc);
 
         JPanel panelPlayers = createPanelPlayer();
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -49,35 +64,36 @@ public class RoomView extends AbstractView {
         panel.add(panelPlayers, gbc);
 
         JPanel panelButton = createPanelBtn();
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(panelButton, gbc);
         add(panel);
 
-        pack();
+//        pack();
     }
 
     private JPanel createPanelInfo() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JLabel labelRoomId = new JLabel("Room ID: " + "123456");
-        labelRoomId.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        JLabel labelNumPlayers = new JLabel("Players: " + "1" + "/5");
-        labelNumPlayers.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        roomIDLabel = new JLabel();
+        roomIDLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        roomPlayersQuantityLabel = new JLabel();
+        roomPlayersQuantityLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 100);
+        gbc.insets = new Insets(10, 10, 10, 50);
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add(labelRoomId, gbc);
+        panel.add(roomIDLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 100, 10, 10);
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(labelNumPlayers, gbc);
+        gbc.insets = new Insets(10, 50, 10, 10);
+        gbc.anchor = GridBagConstraints.EAST;
+        panel.add(roomPlayersQuantityLabel, gbc);
         return panel;
     }
 
@@ -85,20 +101,19 @@ public class RoomView extends AbstractView {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        String[] players = {"Player1", "Player2", "Player3", "Player4", "Player5"};
-        for (int i = 0; i < players.length; i++) { // listPlayer.size()
-            JLabel playerLabel = new JLabel(players[i]);
-            playerLabel.setPreferredSize(new Dimension(150, 30));
-            playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            playerLabel.setOpaque(true);
-            playerLabel.setBackground(Color.LIGHT_GRAY);
-            playerLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        for (int i = 0; i < 5; ++i) {
+            players[i] = new JLabel();
+            players[i].setPreferredSize(new Dimension(200, 35));
+            players[i].setHorizontalAlignment(SwingConstants.CENTER);
+            players[i].setOpaque(true);
+            players[i].setBackground(Color.LIGHT_GRAY);
+            players[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
             gbc.gridx = 0;
             gbc.gridy = i;
             gbc.insets = new Insets(5, 5, 5, 5);
 
-            panel.add(playerLabel, gbc);
+            panel.add(players[i], gbc);
         }
 
         return panel;
@@ -108,19 +123,19 @@ public class RoomView extends AbstractView {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        btnInvite = new ButtonStyle("Mời bạn", 150, 30);
-        btnLeaveRoom = new ButtonStyle("Thoát phòng", 150, 30);
+        inviteButton = new ButtonStyle("Mời bạn", 150, 30);
+        startGameButton = new ButtonStyle("Vào game", 150, 30);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add(btnInvite, gbc);
+        panel.add(inviteButton, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
-        panel.add(btnLeaveRoom, gbc);
+        panel.add(startGameButton, gbc);
 
         return panel;
     }
@@ -148,11 +163,32 @@ public class RoomView extends AbstractView {
 //        countdownDialog.setVisible(true);
 //    }
 
-    public JButton getBtnInvite() {
-        return btnInvite;
+    public JButton getInviteButton() {
+        return inviteButton;
     }
 
-    public JButton getBtnLeaveRoom() {
-        return btnLeaveRoom;
+    public JButton getStartGameButton() {
+        return startGameButton;
+    }
+
+    public void updateView(Room room) {
+        List<String> users = room.getUsers();
+        int usersSize = users.size();
+
+        roomIDLabel.setText("ID phòng: " + room.getRoomID());
+        roomPlayersQuantityLabel.setText("Người chơi: " + room.getUsers().size() + "/5");
+
+        for (int i = 0; i < 5; ++i) {
+            if (i < usersSize) {
+                String username = users.get(i);
+
+                if (Objects.nonNull(username) && !username.isEmpty()) {
+                    this.players[i].setText(username);
+                    continue;
+                }
+            }
+
+            this.players[i].setText("Trống");
+        }
     }
 }

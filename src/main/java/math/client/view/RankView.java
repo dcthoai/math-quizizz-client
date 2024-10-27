@@ -2,10 +2,20 @@ package math.client.view;
 
 import math.client.model.User;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import javax.swing.table.DefaultTableCellRenderer;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
+
 import java.util.List;
 
 public class RankView extends AbstractView {

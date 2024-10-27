@@ -12,23 +12,34 @@ import math.client.view.GameView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 @Action("/game")
 public class GameController implements Runnable, RouterMapping {
 
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
+    private static final GameView gameView = GameView.getInstance();
     private static final SessionManager sessionManager = SessionManager.getInstance();
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
     private static final GameController instance = new GameController();
-    private static final GameView gameView = GameView.getInstance();
     private final Gson gson = new Gson();
 
-    public GameController() {}
+    public GameController() {
+        gameView.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                HomeController.getInstance().openView();
+            }
+        });
+    }
 
     public static GameController getInstance() {
         return instance;
     }
 
     @Action("/question")
+    @SuppressWarnings("unused")
     public void getQuestion(BaseResponse response) {
         System.out.println(response.getMessage());
     }

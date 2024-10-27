@@ -1,9 +1,5 @@
 package math.client.model;
 
-/**
- *
- * @author dctho
- */
 public class User {
 
     private Integer ID, gamesPlayed, score, rank;

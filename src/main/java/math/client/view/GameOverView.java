@@ -4,9 +4,19 @@ import math.client.controller.GameController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Dimension;
 
 public class GameOverView extends AbstractView implements Runnable {
 

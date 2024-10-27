@@ -8,7 +8,10 @@ import math.client.router.Router;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.HashMap;
@@ -17,8 +20,8 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A class to manager connection to socket server and pre handle response
- * @author dctho
+ * A class to manage connection to socket server and pre handle response
+ * @author dcthoai
  */
 public class ConnectionUtil implements Runnable {
 
@@ -39,9 +42,9 @@ public class ConnectionUtil implements Runnable {
 
     private void connect() throws Exception {
         try {
-            socket = new Socket(Constants.SERVER_HOST, Constants.SERVER_PORT);
-            inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            outputStream = new PrintWriter(socket.getOutputStream(), true);
+            socket = new Socket(Constants.SERVER_HOST, Constants.SERVER_PORT);  // Create a socket connection to socket server
+            inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));   // Initiate a stream to read data from the socket connection
+            outputStream = new PrintWriter(socket.getOutputStream(), true);     // Initiate a stream to write data to send to the socket server
             log.info("Initialize socket connection successfully");
             log.info("Connected to {}:{}", Constants.SERVER_HOST, Constants.SERVER_PORT);
 
@@ -66,7 +69,7 @@ public class ConnectionUtil implements Runnable {
         if (callbacks.containsKey(action)) {
             Consumer<BaseResponse> callback = callbacks.get(action);
             callback.accept(response);  // Run callback to handle response
-            callbacks.remove(action);
+            callbacks.remove(action);   // Cancel the callback after it has been processed
         } else {
             Router.getInstance().handleAction(response);
         }

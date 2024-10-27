@@ -1,8 +1,11 @@
 package math.client.view;
 
-import javax.swing.*;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.*;
+
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Component;
 
 public class StatusCellRenderer extends DefaultTableCellRenderer {
     @Override

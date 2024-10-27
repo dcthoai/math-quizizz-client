@@ -4,9 +4,18 @@ import math.client.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
-import java.awt.*;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Dimension;
 
 public class PlayerInfoView extends AbstractView implements Runnable {
     private final String nickname = "";

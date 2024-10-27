@@ -3,8 +3,20 @@ package math.client.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import javax.swing.Timer;
+import javax.swing.JOptionPane;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,7 +43,7 @@ public class GameView extends AbstractView {
 
     private GameView() {
         super("Game Screen", 420, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         generateView();
         startCountdownTimer();
     }

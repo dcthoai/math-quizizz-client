@@ -2,8 +2,20 @@ package math.client.view;
 
 import math.client.model.User;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.BorderFactory;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Dimension;
 
 public class HomeGameView extends AbstractView {
 

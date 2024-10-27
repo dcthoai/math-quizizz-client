@@ -1,7 +1,18 @@
 package math.client.view;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JFrame;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
+
 import java.util.Objects;
 
 public class RegisterView extends AbstractView {
