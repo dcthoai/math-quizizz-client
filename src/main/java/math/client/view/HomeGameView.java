@@ -1,6 +1,6 @@
 package math.client.view;
 
-import math.client.model.User;
+import math.client.dto.response.User;
 
 import javax.swing.JLabel;
 import javax.swing.JFrame;
@@ -26,7 +26,6 @@ public class HomeGameView extends AbstractView {
     private JLabel rankLabel;
     private ButtonStyle createRoomButton;
     private ButtonStyle findRoomButton;
-    private ButtonStyle userInfoButton;
     private ButtonStyle friendListButton;
     private ButtonStyle rankingButton;
     private ButtonStyle logoutButton;
@@ -117,7 +116,6 @@ public class HomeGameView extends AbstractView {
 
         createRoomButton = new ButtonStyle("Tạo phòng", 150, 30);
         findRoomButton = new ButtonStyle("Tìm Phòng", 150, 30);
-        userInfoButton = new ButtonStyle("Tài khoản", 150, 30);
         friendListButton = new ButtonStyle("Danh sách bạn bè", 150, 30);
         rankingButton = new ButtonStyle("Bảng xếp hạng", 150, 30);
         logoutButton = new ButtonStyle("Đăng xuất", 150, 30);
@@ -137,17 +135,11 @@ public class HomeGameView extends AbstractView {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        buttonPanel.add(userInfoButton, gbc);
-        gbc.gridx = 1;
         buttonPanel.add(friendListButton, gbc);
         gbc.gridx = 2;
         buttonPanel.add(logoutButton, gbc);
 
         return buttonPanel;
-    }
-
-    public JButton getUserInfoButton() {
-        return userInfoButton;
     }
 
     public JButton getCreateRoomButton() {

@@ -1,6 +1,7 @@
 package math.client.view;
 
-import math.client.model.User;
+import math.client.dto.response.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

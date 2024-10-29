@@ -6,6 +6,7 @@ import math.client.dto.request.UserRequest;
 import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
+import math.client.view.AbstractView;
 import math.client.view.LoginView;
 import math.client.view.Popup;
 import math.client.view.RegisterView;
@@ -13,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Action("/user")
-public class UserController implements Runnable, RouterMapping {
+public class UserController implements Runnable, RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private static final LoginView loginView = LoginView.getInstance();
@@ -96,5 +97,25 @@ public class UserController implements Runnable, RouterMapping {
 
         registerView.getBackButton().addActionListener(event -> switchToLoginView());
         registerView.getRegisterButton().addActionListener(event -> register());
+    }
+
+    @Override
+    public void openView() {
+        loginView.open();
+    }
+
+    @Override
+    public void hideView() {
+        loginView.hideView();
+    }
+
+    @Override
+    public void closeView() {
+        loginView.exit();
+    }
+
+    @Override
+    public AbstractView getMainView() {
+        return loginView;
     }
 }

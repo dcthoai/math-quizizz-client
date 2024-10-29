@@ -1,11 +1,12 @@
 package math.client.view;
 
-import math.client.model.User;
+import math.client.dto.response.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -21,7 +22,8 @@ import java.awt.Color;
 import java.util.List;
 
 public class FriendListView extends AbstractView {
-    private List<User> listFriend;
+
+    private JTable friendTable;
     private DefaultTableModel tableModel;
     private static final Logger log = LoggerFactory.getLogger(FriendListView.class);
     private static final FriendListView instance = new FriendListView();
@@ -31,7 +33,7 @@ public class FriendListView extends AbstractView {
     }
 
     private FriendListView() {
-        super("List Friend", 600, 600);
+        super("Danh sách bạn bè", 500, 400);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         generateView();
@@ -50,17 +52,10 @@ public class FriendListView extends AbstractView {
         gbc.insets = new Insets(20, 10, 10, 10);
         panel.add(labelListFriend, gbc);
 
-        String[] columnNames = {"Nickname", "Score", "Rank", ""};
+        String[] columnNames = {"Tên", "Tổng điểm", "Xếp hạng", "Trạng thái"};
+        tableModel = new DefaultTableModel(null, columnNames);
 
-        Object[][] data = {
-                {"Friend 1","1000", "1", "Online"},
-                {"Friend 2","1000", "2", "Offline"},
-                {"Friend 3","1000", "3", "Online"},
-                {"Friend 4","1000", "4", "Offline"}
-        };
-
-        tableModel = new DefaultTableModel(data, columnNames);
-        JTable friendTable = new JTable(tableModel);
+        friendTable = new JTable(tableModel);
         friendTable.setFillsViewportHeight(true);
         friendTable.setDefaultEditor(Object.class, null);
         friendTable.setBorder(null);
@@ -90,15 +85,13 @@ public class FriendListView extends AbstractView {
         StatusCellRenderer statusRenderer = new StatusCellRenderer();
         friendTable.getColumnModel().getColumn(3).setCellRenderer(statusRenderer);
 
-        friendTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = friendTable.rowAtPoint(evt.getPoint());
-                if (row >= 0) {
-                    String username = (String) friendTable.getValueAt(row, 0);
-                    System.out.println("Click on " + username);
-                }
-            }
-        });
+        // Center table content
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        for (int i = 1; i < columnNames.length; i++) {
+            friendTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         JScrollPane scrollPane = new JScrollPane(friendTable);
 
@@ -112,19 +105,21 @@ public class FriendListView extends AbstractView {
         panel.add(scrollPane, gbc);
 
         getContentPane().add(panel);
-        pack();
     }
 
-//    public void updateListFriend(List<User> users) {
-//        this.listFriend = users;
-//        tableModel.setRowCount(0);
-//        for (User user : listFriend) {
-//            tableModel.addRow(new Object[]{
-//                    user.getNickname(),
-//                    user.geScore(),
-//                    user.getRank(),
-//                    user.getStatus()
-//            });
-//        }
-//    }
+    public void updateListFriend(List<User> users) {
+        tableModel.setRowCount(0);
+
+        users.forEach(user -> {
+            String status = user.getLoginStatus() ? "Online" : "Offline";
+            String[] newRow = {user.getUsername(), String.valueOf(user.getScore()), String.valueOf(user.getRank()), status};
+            tableModel.addRow(newRow);
+        });
+
+        tableModel.fireTableDataChanged();
+    }
+
+    public JTable getFriendTable() {
+        return friendTable;
+    }
 }

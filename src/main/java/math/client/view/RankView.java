@@ -1,6 +1,6 @@
 package math.client.view;
 
-import math.client.model.User;
+import math.client.dto.response.User;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,7 +28,7 @@ public class RankView extends AbstractView {
     }
 
     private RankView() {
-        super("Rank List", 420, 600);
+        super("Rank List", 500, 400);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         generateView();

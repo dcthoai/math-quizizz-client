@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="math-client:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/math_client_jar</output-path>
+    <root id="archive" name="math-client.jar">
+      <element id="module-output" name="math-client" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/slf4j-api-2.0.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/logback-core-1.4.14.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/logback-classic-1.4.14.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/gson-2.11.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

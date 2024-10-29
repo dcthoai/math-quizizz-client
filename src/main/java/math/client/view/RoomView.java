@@ -69,9 +69,8 @@ public class RoomView extends AbstractView {
         gbc.gridy = 2;
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(panelButton, gbc);
-        add(panel);
 
-//        pack();
+        add(panel);
     }
 
     private JPanel createPanelInfo() {

@@ -42,7 +42,7 @@ public class GameView extends AbstractView {
     }
 
     private GameView() {
-        super("Game Screen", 420, 400);
+        super("Game Screen", 500, 400);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         generateView();
         startCountdownTimer();

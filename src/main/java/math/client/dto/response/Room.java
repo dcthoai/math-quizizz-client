@@ -4,9 +4,11 @@ import java.util.List;
 
 public class Room {
 
-    private final String roomID;
+    private String roomID;
     private Boolean isPlayingGame;
     private List<String> users;
+
+    public Room() {}
 
     public Room(String roomID, Boolean isPlayingGame, List<String> users) {
         this.roomID = roomID;
@@ -16,6 +18,10 @@ public class Room {
 
     public String getRoomID() {
         return roomID;
+    }
+
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
     }
 
     public Boolean getPlayingGame() {
