@@ -45,7 +45,7 @@ public class GameView extends AbstractView {
         super("Game Screen", 500, 400);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         generateView();
-        startCountdownTimer();
+//        startCountdownTimer();
     }
 
     private void generateView() {
@@ -135,20 +135,20 @@ public class GameView extends AbstractView {
         add(panel);
     }
 
-    private void startCountdownTimer() {
-        countdownTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                timeLeft--;
-                updateTimeDisplay();
-                if (timeLeft <= 0) {
-                    countdownTimer.stop();
-                    JOptionPane.showMessageDialog(GameView.this, "Time's up!");
-                }
-            }
-        });
-        countdownTimer.start();
-    }
+//    private void startCountdownTimer() {
+//        countdownTimer = new Timer(1000, new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                timeLeft--;
+//                updateTimeDisplay();
+//                if (timeLeft <= 0) {
+//                    countdownTimer.stop();
+//                    JOptionPane.showMessageDialog(GameView.this, "Time's up!");
+//                }
+//            }
+//        });
+//        countdownTimer.start();
+//    }
 
     private void updateTimeDisplay() {
         int minutes = timeLeft / 60;
@@ -160,5 +160,17 @@ public class GameView extends AbstractView {
         } else {
             timeLabel.setForeground(Color.BLACK);
         }
+    }
+
+    public JLabel getQuestionLabel() {
+        return questionLabel;
+    }
+
+    public JTextField getAnswerField() {
+        return answerField;
+    }
+
+    public ButtonStyle getSubmitButton() {
+        return submitButton;
     }
 }

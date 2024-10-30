@@ -3,6 +3,7 @@ package math.client.controller;
 import com.google.gson.Gson;
 
 import math.client.common.Common;
+import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.BaseResponse;
 import math.client.dto.response.Room;
@@ -47,14 +48,24 @@ public class RoomController implements RouterMapping, ViewController {
             roomView.updateView(room);
 
             roomView.getStartGameButton().addActionListener(event -> {
-                roomView.exit();
-                GameController.getInstance().run();
+                BaseRequest newRequest = new BaseRequest("/api/game/start", Constants.NO_BODY, "/room/play-game");
+                connection.sendMessageToServer(newRequest);
             });
 
             roomView.getInviteButton().addActionListener(event -> {
                 Common.openViewByController(FriendInviteController.getInstance(), instance);
             });
         });
+    }
+
+    @Action("/play-game")
+    public void playGame(BaseResponse response) {
+        if (Objects.nonNull(response) && response.getStatus()) {
+            roomView.exit();
+            GameController.getInstance().run();
+        } else {
+            Popup.notify("Error", response.getMessage());
+        }
     }
 
     @Action("/users/update")

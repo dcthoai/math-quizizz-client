@@ -85,6 +85,7 @@ public class ConnectionUtil implements Runnable {
         while (isListeningResponse) {
             try {
                 String response = inputStream.readLine();
+                log.debug("ResponseJSON from server: " + response);
 
                 if (Objects.isNull(response)) {
                     throw new SocketException("Connection lost or server is closed");
