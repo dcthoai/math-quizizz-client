@@ -3,9 +3,12 @@ package math.client.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import math.client.common.Common;
 import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
+import math.client.dto.response.BaseResponse;
 import math.client.dto.response.Room;
+import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
 import math.client.service.utils.SessionManager;
@@ -23,9 +26,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+@Action("/room")
+@SuppressWarnings("unused")
 public class SearchRoomController implements RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(SearchRoomController.class);
@@ -36,7 +42,7 @@ public class SearchRoomController implements RouterMapping, ViewController {
     private static final SearchRoomController instance = new SearchRoomController();
     private final Gson gson = new Gson();
 
-    private SearchRoomController() {}
+    public SearchRoomController() {}
 
     public static SearchRoomController getInstance() {
         return instance;
@@ -54,21 +60,38 @@ public class SearchRoomController implements RouterMapping, ViewController {
 
         connection.sendMessageToServer(request, response -> {
             if (response.getStatus()) {
-                System.out.println("Get room successful: " + response.getResult());
+                if (Objects.nonNull(response.getResult())) {
+                    joinRoom(response.getResult());
+                } else {
+                    Popup.notify("Not found", "Không tìm thấy phòng");
+                }
             } else {
                 Popup.notify("Error", response.getMessage());
             }
         });
     }
 
-    @Override
-    public void openView() {
-        roomListView.open();
-        roomListView.getSearchRoomButton().addActionListener(event -> openSearchRoomView());
-
-        BaseRequest request = new BaseRequest("/api/room/list", Constants.NO_BODY, Constants.NO_ACTION);
+    public void joinRoom(String roomID) {
+        BaseRequest request = new BaseRequest("/api/room/join", roomID);
 
         connection.sendMessageToServer(request, response -> {
+            if (response.getStatus()) {
+                searchRoomView.exit();
+                closeView();
+                Common.openViewByController(RoomController.getInstance(), HomeController.getInstance());
+            } else {
+                Popup.notify("Error", response.getMessage());
+            }
+        });
+    }
+
+    @Action("/update")
+    public void getRoomsList(BaseResponse response) {
+        updateRoomListView(response);
+    }
+
+    private void updateRoomListView(BaseResponse response) {
+        try {
             Type roomListType = new TypeToken<List<Room>>() {}.getType();
             List<Room> rooms = gson.fromJson(response.getResult(), roomListType);
 
@@ -84,12 +107,25 @@ public class SearchRoomController implements RouterMapping, ViewController {
 
                         if (row >= 0) {
                             String roomID = (String) roomTable.getValueAt(row, 0);
-                            System.out.println("Click on " + roomID);
+                            joinRoom(roomID);
                         }
                     }
                 });
+            } else {
+                roomListView.updateListRooms(Collections.emptyList());
             }
-        });
+        } catch (Exception e) {
+            log.error("Cannot convert rooms data from response: ", e);
+        }
+    }
+
+    @Override
+    public void openView() {
+        roomListView.open();
+        roomListView.getSearchRoomButton().addActionListener(event -> openSearchRoomView());
+
+        BaseRequest request = new BaseRequest("/api/room/available", Constants.NO_BODY, "/room/update");
+        connection.sendMessageToServer(request);
     }
 
     @Override

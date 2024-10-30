@@ -83,10 +83,10 @@ public class Router implements Runnable {
                 Object controllerInstance = method.getDeclaringClass().getDeclaredConstructor().newInstance();
                 method.invoke(controllerInstance, response);
             } catch (Exception e) {
-                log.error("Failed to handle response from server", e);
+                log.error("Failed to handle response from server: {}", response.getAction(), e);
             }
         } else if (Objects.equals(response.getAction(), Constants.NO_ACTION)) {
-            log.warn("Response action: {}", Constants.NO_ACTION);
+            log.warn("Response action: {}", response.getAction());
         } else {
             log.error("Could not found method to handle this response. Action: {}", response.getAction());
         }

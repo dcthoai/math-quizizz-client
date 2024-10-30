@@ -62,16 +62,20 @@ public class ConnectionUtil implements Runnable {
     }
 
     private void handleResponseFromServer(String responseJson) {
-        BaseResponse response = gson.fromJson(responseJson, BaseResponse.class);
-        String action = response.getAction();
+        try {
+            BaseResponse response = gson.fromJson(responseJson, BaseResponse.class);
+            String action = response.getAction();
 
-        // Handle response with registered callback, otherwise use router to find handler function based on action
-        if (callbacks.containsKey(action)) {
-            Consumer<BaseResponse> callback = callbacks.get(action);
-            callback.accept(response);  // Run callback to handle response
-            callbacks.remove(action);   // Cancel the callback after it has been processed
-        } else {
-            Router.getInstance().handleAction(response);
+            // Handle response with registered callback, otherwise use router to find handler function based on action
+            if (callbacks.containsKey(action)) {
+                Consumer<BaseResponse> callback = callbacks.get(action);
+                callback.accept(response);  // Run callback to handle response
+                callbacks.remove(action);   // Cancel the callback after it has been processed
+            } else {
+                Router.getInstance().handleAction(response);
+            }
+        } catch (Exception e) {
+            log.error("Cannot handle response: {}", responseJson, e);
         }
     }
 

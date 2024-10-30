@@ -29,7 +29,7 @@ public class RankingController implements Runnable, RouterMapping, ViewControlle
     }
 
     private void getRanking() {
-        BaseRequest request = new BaseRequest("/api/ranking", Constants.NO_BODY, "/ranking");
+        BaseRequest request = new BaseRequest("/api/ranking");
 //        connection.sendMessageToServer(request, response -> setRankingView((List<User>) response.getResult()));
     }
 

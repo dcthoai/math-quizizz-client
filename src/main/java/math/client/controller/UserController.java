@@ -49,7 +49,7 @@ public class UserController implements Runnable, RouterMapping, ViewController {
         }
 
         UserRequest user = new UserRequest(username.strip(), password.strip());
-        BaseRequest request = new BaseRequest("/api/user/register", gson.toJson(user), "/register");
+        BaseRequest request = new BaseRequest("/api/user/register", gson.toJson(user));
 
         connection.sendMessageToServer(request, response -> {
             boolean isRegisterSuccess = response.getStatus();
@@ -67,7 +67,7 @@ public class UserController implements Runnable, RouterMapping, ViewController {
         String username = loginView.getUsername();
         String password = loginView.getPassword();
         UserRequest user = new UserRequest(username.strip(), password.strip());
-        BaseRequest request = new BaseRequest("/api/user/login", gson.toJson(user), "/register");
+        BaseRequest request = new BaseRequest("/api/user/login", gson.toJson(user));
 
         connection.sendMessageToServer(request, response -> {
             boolean isLoginSuccess = response.getStatus();
