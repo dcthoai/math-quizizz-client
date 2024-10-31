@@ -1,8 +1,7 @@
 package math.client.view;
 
-import math.client.controller.GameController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.swing.JButton;
+import math.client.dto.response.User;
 
 import javax.swing.JLabel;
 import javax.swing.JFrame;
@@ -17,11 +16,19 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Dimension;
+import java.util.Map;
 
-public class GameOverView extends AbstractView implements Runnable {
+public class GameOverView extends AbstractView {
 
-    private static final Logger log = LoggerFactory.getLogger(GameController.class);
     private static final GameOverView instance = new GameOverView();
+    private JLabel title;
+    private JLabel correctAnswers;
+    private JLabel totalPoint;
+    private JLabel rank;
+    private DefaultTableModel ranksTable;
+    private JTable rankingTable;
+    private JButton backButton;
+    private boolean isWin = false;
 
     public static GameOverView getInstance() {
         return instance;
@@ -30,81 +37,77 @@ public class GameOverView extends AbstractView implements Runnable {
     private GameOverView() {
         super("Game Over", 450, 440);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        generateView(0, 0, 0, 0, new String[1][1], false);
+        generateView();
     }
 
-    private void generateView(int timeTaken, int correctAnswers, int score, int rank, String[][] leaderboard, boolean hasWon) {
+    private void generateView() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10); // Padding
 
         // Title based on win/loss
-        String title = hasWon ? "You Win!" : "You Lose!";
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 24));
-        titleLabel.setForeground(hasWon ? Color.GREEN : Color.RED);
+        title = new JLabel();
+        title.setFont(new Font("Comic Sans MS", Font.BOLD, 24));
+        title.setForeground(isWin ? Color.GREEN : Color.RED);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(titleLabel, gbc);
+        panel.add(title, gbc);
 
         // Time taken
-        JLabel timeLabel = new JLabel("Time Taken: " + formatTime(timeTaken));
+        JLabel timeLabel = new JLabel("Time Taken: ");
         timeLabel.setFont(new Font("Roboto", Font.PLAIN, 16));
         gbc.gridy = 1;
         panel.add(timeLabel, gbc);
 
         // Correct answers
-        JLabel correctAnswersLabel = new JLabel("Correct Answers: " + correctAnswers);
-        correctAnswersLabel.setFont(new Font("Roboto", Font.PLAIN, 16));
+        correctAnswers = new JLabel("Correct Answers: " + correctAnswers);
+        correctAnswers.setFont(new Font("Roboto", Font.PLAIN, 16));
         gbc.gridy = 2;
-        panel.add(correctAnswersLabel, gbc);
+        panel.add(correctAnswers, gbc);
 
         // Score
-        JLabel scoreLabel = new JLabel("Score: " + score);
-        scoreLabel.setFont(new Font("Roboto", Font.PLAIN, 16));
+        totalPoint = new JLabel();
+        totalPoint.setFont(new Font("Roboto", Font.PLAIN, 16));
         gbc.gridy = 3;
-        panel.add(scoreLabel, gbc);
+        panel.add(totalPoint, gbc);
 
         // Rank
-        JLabel rankLabel = new JLabel("Rank: " + rank);
-        rankLabel.setFont(new Font("Roboto", Font.PLAIN, 16));
+        rank = new JLabel();
+        rank.setFont(new Font("Roboto", Font.PLAIN, 16));
         gbc.gridy = 4;
-        panel.add(rankLabel, gbc);
+        panel.add(rank, gbc);
 
         // Leaderboard table
-        String[] columnNames = {"Rank", "Username", "Score"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-        for (String[] entry : leaderboard) {
-            model.addRow(entry);
-        }
-        JTable leaderboardTable = new JTable(model);
-        leaderboardTable.setFillsViewportHeight(true);
-        leaderboardTable.setDefaultEditor(Object.class, null);
-        leaderboardTable.setBorder(null);
-        leaderboardTable.setFocusable(false);
-        leaderboardTable.setRowHeight(30);
+        String[] columnNames = {"Xếp hạng", "Tên người chơi", "Điểm số"};
+        ranksTable = new DefaultTableModel(columnNames, 0);
+        rankingTable = new JTable(ranksTable);
+        rankingTable.setFillsViewportHeight(true);
+        rankingTable.setDefaultEditor(Object.class, null);
+        rankingTable.setBorder(null);
+        rankingTable.setFocusable(false);
+        rankingTable.setRowHeight(30);
 
-        leaderboardTable.setFont(new Font("Roboto", Font.PLAIN, 15));
-        leaderboardTable.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 13));
-        leaderboardTable.setBackground(new Color(255, 255, 255));
-        leaderboardTable.getTableHeader().setBackground(Color.LIGHT_GRAY);
+        rankingTable.setFont(new Font("Roboto", Font.PLAIN, 15));
+        rankingTable.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 13));
+        rankingTable.setBackground(new Color(255, 255, 255));
+        rankingTable.getTableHeader().setBackground(Color.LIGHT_GRAY);
 
-        leaderboardTable.getColumnModel().getColumn(0).setMinWidth(60);
-        leaderboardTable.getColumnModel().getColumn(0).setMaxWidth(150);
-        leaderboardTable.getColumnModel().getColumn(1).setMinWidth(60);
-        leaderboardTable.getColumnModel().getColumn(1).setMaxWidth(150);
-        leaderboardTable.getColumnModel().getColumn(2).setMinWidth(60);
-        leaderboardTable.getColumnModel().getColumn(2).setMaxWidth(150);
+        rankingTable.getColumnModel().getColumn(0).setMinWidth(100);
+        rankingTable.getColumnModel().getColumn(0).setMaxWidth(150);
+        rankingTable.getColumnModel().getColumn(1).setMinWidth(100);
+        rankingTable.getColumnModel().getColumn(1).setMaxWidth(200);
+        rankingTable.getColumnModel().getColumn(2).setMinWidth(100);
+        rankingTable.getColumnModel().getColumn(2).setMaxWidth(150);
 
-        leaderboardTable.getTableHeader().setReorderingAllowed(false);
-        leaderboardTable.getColumnModel().getColumn(0).setResizable(false);
-        leaderboardTable.getColumnModel().getColumn(1).setResizable(false);
-        leaderboardTable.getColumnModel().getColumn(2).setResizable(false);
+        rankingTable.getTableHeader().setReorderingAllowed(false);
+        rankingTable.getColumnModel().getColumn(0).setResizable(false);
+        rankingTable.getColumnModel().getColumn(1).setResizable(false);
+        rankingTable.getColumnModel().getColumn(2).setResizable(false);
 
-        JScrollPane scrollPane = new JScrollPane(leaderboardTable);
+        JScrollPane scrollPane = new JScrollPane(rankingTable);
         scrollPane.setPreferredSize(new Dimension(400, 174));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -115,28 +118,41 @@ public class GameOverView extends AbstractView implements Runnable {
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(scrollPane, gbc);
 
-        ButtonStyle backButton = new ButtonStyle("Back to Home", 150, 30);
-        backButton.addActionListener(e -> {
-            dispose();
-        });
+        backButton = new ButtonStyle("Quay lại", 150, 30);
+
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.CENTER;
         panel.add(backButton, gbc);
+
         // Add the panel to the frame
         add(panel);
-        pack();
     }
 
-    private String formatTime(int timeInSeconds) {
-        int minutes = timeInSeconds / 60;
-        int seconds = timeInSeconds % 60;
-        return String.format("%d:%02d", minutes, seconds);
+    public void updateUserResult(User user) {
+        isWin = user.getCurrentRank() == 1;
+        title.setText(isWin ? "You win!" : "You lose!");
+        rank.setText(String.valueOf(user.getCurrentRank()));
+        totalPoint.setText(String.valueOf(user.getCurrentPoint()));
     }
 
-    @Override
-    public void run() {
-        log.info("Initialize game over view successfully");
-        open();
+    public void updateRankingResult(Map<String, Integer> ranking) {
+        ranksTable.setRowCount(0);
+        int rank = 1;
+
+        ranking.forEach((username, point) -> {
+            String[] newRow = { String.valueOf(rank), username, String.valueOf(point) };
+            ranksTable.addRow(newRow);
+        });
+
+        ranksTable.fireTableDataChanged();
+    }
+
+    public JButton getBackButton() {
+        return backButton;
+    }
+
+    public JTable getRankingTable() {
+        return rankingTable;
     }
 }

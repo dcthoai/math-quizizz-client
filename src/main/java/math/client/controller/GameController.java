@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.BaseResponse;
+import math.client.dto.response.GameResult;
 import math.client.dto.response.User;
 import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
 import math.client.view.AbstractView;
+import math.client.view.GameOverView;
 import math.client.view.GameView;
 
 import math.client.view.Popup;
@@ -25,6 +27,7 @@ public class GameController implements Runnable, RouterMapping, ViewController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
     private static final GameView gameView = GameView.getInstance();
+    private static final GameOverView gameOverView = GameOverView.getInstance();
     private static final GameController instance = new GameController();
     private final Gson gson = new Gson();
 
@@ -71,6 +74,7 @@ public class GameController implements Runnable, RouterMapping, ViewController {
 
     private void quitGame() {
         try {
+            closeView();
             BaseRequest request = new BaseRequest("/api/room/exit");
             connection.sendMessageToServer(request, response -> Popup.notify("Thông báo", "Bạn đã thoát trò chơi"));
         } catch (Exception ex) {
@@ -78,6 +82,36 @@ public class GameController implements Runnable, RouterMapping, ViewController {
         }
 
         HomeController.getInstance().run();
+    }
+
+    private void updateGameResult(String result) {
+        try {
+            GameResult gameResult = gson.fromJson(result, GameResult.class);
+
+            gameOverView.updateUserResult(gameResult.getUser());
+            gameOverView.updateRankingResult(gameResult.getRanking());
+        } catch (Exception e) {
+            log.error("Cannot get game results", e);
+        }
+    }
+
+    @Action("/finish")
+    public void finishGameResult(BaseResponse response) {
+        closeView();
+        gameOverView.open();
+        updateGameResult(response.getResult());
+
+        gameOverView.getBackButton().addActionListener(event -> {
+            gameOverView.exit();
+            HomeController.getInstance().openView();
+        });
+
+        gameOverView.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                HomeController.getInstance().openView();
+            }
+        });
     }
 
     @Override
@@ -92,7 +126,6 @@ public class GameController implements Runnable, RouterMapping, ViewController {
     @Override
     public void openView() {
         gameView.open();
-
         gameView.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

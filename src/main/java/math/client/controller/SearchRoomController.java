@@ -122,7 +122,7 @@ public class SearchRoomController implements RouterMapping, ViewController {
         roomListView.open();
         roomListView.getSearchRoomButton().addActionListener(event -> openSearchRoomView());
 
-        BaseRequest request = new BaseRequest("/api/room/available", Constants.NO_BODY, "/room/update");
+        BaseRequest request = new BaseRequest("/api/room", Constants.NO_BODY, "/room/update");
         connection.sendMessageToServer(request);
     }
 
