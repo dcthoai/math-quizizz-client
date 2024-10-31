@@ -1,5 +1,6 @@
 package math.client.dto.request;
 
+@SuppressWarnings("unused")
 public class UserRequest {
 
     private String username, password;

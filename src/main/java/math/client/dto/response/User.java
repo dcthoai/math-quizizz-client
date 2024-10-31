@@ -1,8 +1,9 @@
 package math.client.dto.response;
 
+@SuppressWarnings("unused")
 public class User {
 
-    private Integer ID, gamesPlayed, score, rank, currentPoint, currentRank;
+    private Integer ID, gamesPlayed, score, rank, currentPoint, currentRank, correctAnswers;
     private Float winRate;
     private Boolean loginStatus;
     private String username;
@@ -79,5 +80,13 @@ public class User {
 
     public void setLoginStatus(Boolean loginStatus) {
         this.loginStatus = loginStatus;
+    }
+
+    public Integer getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public void setCorrectAnswers(Integer correctAnswers) {
+        this.correctAnswers = correctAnswers;
     }
 }

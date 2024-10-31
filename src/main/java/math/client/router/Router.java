@@ -2,11 +2,13 @@ package math.client.router;
 
 import math.client.common.Constants;
 import math.client.dto.response.BaseResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.reflect.Method;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -18,6 +20,7 @@ import java.util.Objects;
  * Implements the RouterMapping interface and uses the @Action annotation for the classes and methods you want to route.
  * @author dcthoai
  */
+@SuppressWarnings("unused")
 public class Router implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(Router.class);

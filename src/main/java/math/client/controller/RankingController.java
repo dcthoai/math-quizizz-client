@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @Action("/ranking")
+@SuppressWarnings("unused")
 public class RankingController implements Runnable, RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(RankingController.class);

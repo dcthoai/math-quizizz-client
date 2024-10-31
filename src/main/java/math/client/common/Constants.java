@@ -4,6 +4,7 @@ package math.client.common;
  * All configuration constants and parameters used for the application
  * @author dcthoai
  */
+@SuppressWarnings("unused")
 public interface Constants {
 
     String SERVER_HOST = "localhost";

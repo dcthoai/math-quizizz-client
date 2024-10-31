@@ -10,6 +10,7 @@ import math.client.view.PlayerInfoView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("unused")
 public class PlayerController implements RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(PlayerController.class);

@@ -31,6 +31,7 @@ public class RegisterView extends AbstractView {
     private RegisterView() {
         super("Đăng ký", 500, 320);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         generateView();
     }
 
@@ -127,6 +128,6 @@ public class RegisterView extends AbstractView {
     }
 
     public boolean validateRePassword() {
-        return Objects.equals(getPassword(), rePassword.getText());
+        return Objects.equals(getPassword(), String.valueOf(rePassword.getPassword()));
     }
 }

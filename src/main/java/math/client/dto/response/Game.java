@@ -2,6 +2,7 @@ package math.client.dto.response;
 
 import java.sql.Timestamp;
 
+@SuppressWarnings("unused")
 public class Game {
 
     private Integer ID;

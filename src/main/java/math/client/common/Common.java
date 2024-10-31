@@ -10,6 +10,7 @@ import java.util.Objects;
  * Common methods for applications
  * @author dcthoai
  */
+@SuppressWarnings("unused")
 public class Common {
 
     public static void openViewByController(ViewController controller, ViewController parentViewController) {

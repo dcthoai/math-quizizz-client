@@ -2,9 +2,6 @@ package math.client.view;
 
 import math.client.dto.response.User;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -25,7 +22,6 @@ public class FriendListView extends AbstractView {
 
     private JTable friendTable;
     private DefaultTableModel tableModel;
-    private static final Logger log = LoggerFactory.getLogger(FriendListView.class);
     private static final FriendListView instance = new FriendListView();
 
     public static FriendListView getInstance() {

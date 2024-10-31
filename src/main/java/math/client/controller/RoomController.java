@@ -62,7 +62,8 @@ public class RoomController implements RouterMapping, ViewController {
     public void playGame(BaseResponse response) {
         if (Objects.nonNull(response) && response.getStatus()) {
             roomView.exit();
-            GameController.getInstance().run();
+            Long gameTimeout = Long.parseLong(response.getResult());
+            GameController.getInstance().run(gameTimeout);
         } else {
             Popup.notify("Error", response.getMessage());
         }

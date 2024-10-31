@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("unused")
 public class FriendController implements RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(FriendController.class);

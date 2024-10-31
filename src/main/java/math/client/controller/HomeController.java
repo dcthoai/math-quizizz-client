@@ -14,6 +14,7 @@ import math.client.view.Popup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("unused")
 public class HomeController implements Runnable, RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(HomeController.class);

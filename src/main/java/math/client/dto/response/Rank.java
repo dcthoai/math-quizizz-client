@@ -1,5 +1,6 @@
 package math.client.dto.response;
 
+@SuppressWarnings("unused")
 public class Rank {
 
     Integer ID, userID, score;

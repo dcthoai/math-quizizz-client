@@ -2,6 +2,7 @@ package math.client.view;
 
 import javax.swing.JFrame;
 
+@SuppressWarnings("unused")
 public class AbstractView extends JFrame {
 
     public AbstractView() {}

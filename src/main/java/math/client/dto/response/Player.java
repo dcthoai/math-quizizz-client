@@ -1,5 +1,6 @@
 package math.client.dto.response;
 
+@SuppressWarnings("unused")
 public class Player {
 
     private Integer ID, gameID, rank, score;

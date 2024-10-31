@@ -2,6 +2,7 @@ package math.client.dto.response;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Room {
 
     private String roomID;

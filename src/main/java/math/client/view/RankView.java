@@ -62,7 +62,6 @@ public class RankView extends AbstractView {
         rankTable.setBackground(new Color(255, 255, 255));
         rankTable.getTableHeader().setBackground(Color.LIGHT_GRAY);
 
-        // Thiết lập độ rộng cột
         rankTable.getColumnModel().getColumn(0).setMinWidth(60);
         rankTable.getColumnModel().getColumn(0).setMaxWidth(150);
         rankTable.getColumnModel().getColumn(1).setMinWidth(60);

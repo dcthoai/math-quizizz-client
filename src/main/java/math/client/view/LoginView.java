@@ -28,6 +28,7 @@ public class LoginView extends AbstractView {
     private LoginView() {
         super("Đăng nhập", 500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         generateView();
     }
 

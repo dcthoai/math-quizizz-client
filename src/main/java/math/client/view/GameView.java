@@ -1,19 +1,16 @@
 package math.client.view;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 import javax.swing.Box;
 
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
-import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -29,12 +26,8 @@ public class GameView extends AbstractView {
     private JLabel scoreLabel;
     private JLabel rankLabel;
     private JLabel usernameLabel;
+    private Long timeLeft;
     private Timer countdownTimer;
-    private int timeLeft = 300;
-    private int score = 0;
-    private int targetResult;
-    private int[] numbers = new int[5];
-    private static final Logger log = LoggerFactory.getLogger(GameView.class);
     private static final GameView instance = new GameView();
 
     public static GameView getInstance() {
@@ -44,21 +37,15 @@ public class GameView extends AbstractView {
     private GameView() {
         super("Game Screen", 500, 400);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         generateView();
-//        startCountdownTimer();
     }
 
     private void generateView() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        StringBuilder questionText = new StringBuilder("Use these numbers: ");
-        for (int number : numbers) {
-            questionText.append(number).append(" ");
-        }
-        questionText.append("| Target: ").append(targetResult);
-
-        questionLabel = new JLabel(questionText.toString());
+        questionLabel = new JLabel();
         questionLabel.setFont(new Font("Roboto", Font.BOLD, 16));
 
         // Input field for answer
@@ -68,7 +55,7 @@ public class GameView extends AbstractView {
 
         quitButton = new ButtonStyle("Quit", 80, 30);
 
-        timeLabel = new JLabel("Time left: 5:00");
+        timeLabel = new JLabel("Time left: 0:00");
         timeLabel.setFont(new Font("Roboto", Font.BOLD, 14));
 
         // Score label
@@ -136,24 +123,28 @@ public class GameView extends AbstractView {
         add(panel);
     }
 
-//    private void startCountdownTimer() {
-//        countdownTimer = new Timer(1000, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                timeLeft--;
-//                updateTimeDisplay();
-//                if (timeLeft <= 0) {
-//                    countdownTimer.stop();
-//                    JOptionPane.showMessageDialog(GameView.this, "Time's up!");
-//                }
-//            }
-//        });
-//        countdownTimer.start();
-//    }
+    public void startCountdownTimer(Long time) {
+        this.timeLeft = time;
+
+        if (countdownTimer != null && countdownTimer.isRunning()) {
+            countdownTimer.stop();
+        }
+
+        countdownTimer = new Timer(1000, event -> {
+            timeLeft -= 1;
+            updateTimeDisplay();
+
+            if (timeLeft <= 0) {
+                countdownTimer.stop();
+            }
+        });
+
+        countdownTimer.start();
+    }
 
     private void updateTimeDisplay() {
-        int minutes = timeLeft / 60;
-        int seconds = timeLeft % 60;
+        long minutes = timeLeft / 60;
+        long seconds = timeLeft % 60;
         timeLabel.setText(String.format("Time left: %d:%02d", minutes, seconds));
 
         if (timeLeft < 31) {

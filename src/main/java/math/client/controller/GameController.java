@@ -22,7 +22,7 @@ import java.awt.event.WindowEvent;
 
 @Action("/game")
 @SuppressWarnings("unused")
-public class GameController implements Runnable, RouterMapping, ViewController {
+public class GameController implements RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
@@ -114,11 +114,11 @@ public class GameController implements Runnable, RouterMapping, ViewController {
         });
     }
 
-    @Override
-    public void run() {
+    public void run(Long time) {
         log.info("Initialize game controller successfully");
         openView();
 
+        gameView.startCountdownTimer(time / 1000); // Convert milliseconds to seconds
         gameView.getAnswerField().addActionListener(event -> submitAnswer());
         gameView.getQuitButton().addActionListener(event -> quitGame());
     }
@@ -126,6 +126,7 @@ public class GameController implements Runnable, RouterMapping, ViewController {
     @Override
     public void openView() {
         gameView.open();
+        gameView.startCountdownTimer(5 * 60L); // 5 minutes
         gameView.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

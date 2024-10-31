@@ -1,14 +1,11 @@
 package math.client.view;
 
 import math.client.dto.response.Room;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.BorderFactory;
-import javax.swing.Timer;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
@@ -29,8 +26,6 @@ public class RoomView extends AbstractView {
     private ButtonStyle startGameButton;
     private JLabel roomIDLabel;
     private JLabel roomPlayersQuantityLabel;
-    private Timer countdownTimer;
-    private static final Logger log = LoggerFactory.getLogger(RoomView.class);
     private static final RoomView instance = new RoomView();
 
     public static RoomView getInstance() {
@@ -40,6 +35,7 @@ public class RoomView extends AbstractView {
     private RoomView() {
         super("Phòng chơi mới", 480, 420);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         generateView();
     }
 
@@ -138,29 +134,6 @@ public class RoomView extends AbstractView {
 
         return panel;
     }
-
-//    private void startCountdownDialog(int countdown) {
-//        JDialog countdownDialog = new JDialog(this, "Game Starting Soon", true);
-//        countdownDialog.setSize(300, 150);
-//        countdownDialog.setLayout(new BorderLayout());
-//        countdownDialog.setLocationRelativeTo(this);
-//
-//        JLabel countdownLabel = new JLabel("Game sẽ bắt đầu trong " + countdown + " giây.", SwingConstants.CENTER);
-//        countdownDialog.add(countdownLabel, BorderLayout.CENTER);
-//
-//        countdownTimer = new Timer(1000, e -> {
-//            if (countdown > 0) {
-//                countdownLabel.setText("Game sẽ bắt đầu trong " + countdown + " giây.");
-//                countdown--;
-//            } else {
-//                countdownTimer.stop();
-//                countdownDialog.dispose();
-//            }
-//        });
-//
-//        countdownTimer.start();
-//        countdownDialog.setVisible(true);
-//    }
 
     public JButton getInviteButton() {
         return inviteButton;

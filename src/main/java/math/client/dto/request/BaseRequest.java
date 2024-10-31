@@ -4,6 +4,7 @@ import math.client.common.Constants;
 
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 public class BaseRequest {
 
     private String endPoint, request, action;

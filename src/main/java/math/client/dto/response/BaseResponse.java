@@ -2,6 +2,7 @@ package math.client.dto.response;
 
 import math.client.common.Constants;
 
+@SuppressWarnings("unused")
 public class BaseResponse {
 
     private Integer code;

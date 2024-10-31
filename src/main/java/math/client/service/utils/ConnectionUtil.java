@@ -5,6 +5,7 @@ import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.BaseResponse;
 import math.client.router.Router;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +13,10 @@ import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+
 import java.net.Socket;
 import java.net.SocketException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -23,6 +26,7 @@ import java.util.function.Consumer;
  * A class to manage connection to socket server and pre handle response
  * @author dcthoai
  */
+@SuppressWarnings("unused")
 public class ConnectionUtil implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionUtil.class);

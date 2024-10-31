@@ -1,8 +1,5 @@
 package math.client.view;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -16,12 +13,11 @@ import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Insets;
 
-public class SearchRoomView extends AbstractView implements Runnable {
+public class SearchRoomView extends AbstractView {
 
     private ButtonStyle searchButton;
     private ButtonStyle backButton;
     private JTextField roomCodeField;
-    private static final Logger log = LoggerFactory.getLogger(SearchRoomView.class);
     private static final SearchRoomView instance = new SearchRoomView();
 
     public static SearchRoomView getInstance() {
@@ -31,6 +27,7 @@ public class SearchRoomView extends AbstractView implements Runnable {
     private SearchRoomView() {
         super("Join Room", 400, 250);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         generateView();
     }
 
@@ -85,11 +82,5 @@ public class SearchRoomView extends AbstractView implements Runnable {
 
     public String getRoomCode() {
         return roomCodeField.getText();
-    }
-
-    @Override
-    public void run() {
-        log.info("Initialize search room view successfully");
-        open();
     }
 }
