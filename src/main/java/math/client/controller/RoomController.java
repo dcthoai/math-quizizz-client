@@ -52,9 +52,9 @@ public class RoomController implements RouterMapping, ViewController {
                 connection.sendMessageToServer(newRequest);
             });
 
-            roomView.getInviteButton().addActionListener(event -> {
-                Common.openViewByController(FriendInviteController.getInstance(), instance);
-            });
+            roomView.getInviteButton().addActionListener(event ->
+                Common.openViewByController(FriendInviteController.getInstance(), instance)
+            );
         });
     }
 
@@ -76,6 +76,18 @@ public class RoomController implements RouterMapping, ViewController {
             roomView.updateView(room);
     }
 
+    private void quitRoom() {
+        try {
+            BaseRequest request = new BaseRequest("/api/room/exit");
+
+            connection.sendMessageToServer(request, response ->
+                Popup.notify("Notification", "Bạn đã rời khỏi phòng")
+            );
+        } catch (Exception ex) {
+            log.error("Cannot exit room: ", ex);
+        }
+    }
+
     @Override
     public void openView() {
         roomView.open();
@@ -84,15 +96,7 @@ public class RoomController implements RouterMapping, ViewController {
         roomView.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                try {
-                    BaseRequest request = new BaseRequest("/api/room/exit");
-
-                    connection.sendMessageToServer(request, response -> {
-                        Popup.notify("Notification", "Bạn đã rời khỏi phòng");
-                    });
-                } catch (Exception ex) {
-                    log.error("Cannot exit room: ", ex);
-                }
+                quitRoom();
             }
         });
     }

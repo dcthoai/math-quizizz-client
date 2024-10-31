@@ -1,4 +1,4 @@
-package math.client.model;
+package math.client.dto.response;
 
 public class Rank {
 

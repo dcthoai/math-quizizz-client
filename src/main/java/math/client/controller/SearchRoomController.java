@@ -11,7 +11,6 @@ import math.client.dto.response.Room;
 import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
-import math.client.service.utils.SessionManager;
 import math.client.view.AbstractView;
 import math.client.view.Popup;
 import math.client.view.RoomListView;
@@ -35,7 +34,6 @@ import java.util.Objects;
 public class SearchRoomController implements RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(SearchRoomController.class);
-    private static final SessionManager sessionManager = SessionManager.getInstance();
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
     private static final SearchRoomView searchRoomView = SearchRoomView.getInstance();
     private static final RoomListView roomListView = RoomListView.getInstance();

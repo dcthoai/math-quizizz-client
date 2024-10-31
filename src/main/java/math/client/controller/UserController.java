@@ -1,6 +1,7 @@
 package math.client.controller;
 
 import com.google.gson.Gson;
+
 import math.client.dto.request.BaseRequest;
 import math.client.dto.request.UserRequest;
 import math.client.router.Action;
@@ -10,6 +11,7 @@ import math.client.view.AbstractView;
 import math.client.view.LoginView;
 import math.client.view.Popup;
 import math.client.view.RegisterView;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

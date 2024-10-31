@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.Timer;
-import javax.swing.JOptionPane;
+import javax.swing.Box;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -24,7 +24,7 @@ public class GameView extends AbstractView {
 
     private JLabel questionLabel;
     private JTextField answerField;
-    private ButtonStyle submitButton, quitButton;
+    private ButtonStyle quitButton;
     private JLabel timeLabel;
     private JLabel scoreLabel;
     private JLabel rankLabel;
@@ -66,8 +66,6 @@ public class GameView extends AbstractView {
         answerField.setPreferredSize(new Dimension(250, 30));
         answerField.setFont(new Font("Roboto", Font.PLAIN, 15));
 
-        // Buttons
-        submitButton = new ButtonStyle("Submit", 80, 30);
         quitButton = new ButtonStyle("Quit", 80, 30);
 
         timeLabel = new JLabel("Time left: 5:00");
@@ -78,25 +76,42 @@ public class GameView extends AbstractView {
         scoreLabel.setFont(new Font("Roboto", Font.BOLD, 14));
 
         // Ranking label
-        rankLabel = new JLabel("Rank: 1"); // Initialize ranking
+        rankLabel = new JLabel("Rank: 0"); // Initialize ranking
         rankLabel.setFont(new Font("Roboto", Font.BOLD, 14));
 
         // Username label
         usernameLabel = new JLabel("Player: ");
         usernameLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 
-        // Add username label to the top right corner
+        // Add username label to the top left corner
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        panel.add(usernameLabel, gbc);
+
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTHEAST;
-        gbc.insets = new Insets(10, 10, 50, 10);
-        panel.add(usernameLabel, gbc);
+        gbc.insets = new Insets(5, 0, 0, 0);
+        panel.add(timeLabel, gbc);
+
+        JPanel infoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        infoPanel.add(scoreLabel);
+        infoPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        infoPanel.add(rankLabel);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.insets = new Insets(10, 0, 50, 0);
+        panel.add(infoPanel, gbc);
 
         // Add question to the panel
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 20, 10, 20);
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(questionLabel, gbc);
 
@@ -107,29 +122,15 @@ public class GameView extends AbstractView {
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(answerField, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(timeLabel, gbc);
-
-        JPanel infoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        infoPanel.add(scoreLabel);
-        infoPanel.add(rankLabel);
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(infoPanel, gbc);
-
-        // Add Submit and Quit buttons
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
-        buttonPanel.add(submitButton);
+        // Add Quit buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         buttonPanel.add(quitButton);
 
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(40, 0, 0, 0);
         panel.add(buttonPanel, gbc);
 
         add(panel);
@@ -170,7 +171,19 @@ public class GameView extends AbstractView {
         return answerField;
     }
 
-    public ButtonStyle getSubmitButton() {
-        return submitButton;
+    public ButtonStyle getQuitButton() {
+        return quitButton;
+    }
+
+    public void setUsernameLabel(String username) {
+        usernameLabel.setText("Player: " + username);
+    }
+
+    public void setScoreLabel(String score) {
+        scoreLabel.setText("Score: " + score);
+    }
+
+    public void setRankLabel(String rank) {
+        rankLabel.setText("Rank: " + rank);
     }
 }

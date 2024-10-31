@@ -1,4 +1,4 @@
-package math.client.model;
+package math.client.dto.response;
 
 import java.sql.Timestamp;
 

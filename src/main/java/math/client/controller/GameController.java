@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.BaseResponse;
+import math.client.dto.response.User;
 import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
-import math.client.service.utils.SessionManager;
 import math.client.view.AbstractView;
 import math.client.view.GameView;
 
@@ -23,7 +23,6 @@ import java.awt.event.WindowEvent;
 public class GameController implements Runnable, RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
-    private static final SessionManager sessionManager = SessionManager.getInstance();
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
     private static final GameView gameView = GameView.getInstance();
     private static final GameController instance = new GameController();
@@ -33,6 +32,17 @@ public class GameController implements Runnable, RouterMapping, ViewController {
 
     public static GameController getInstance() {
         return instance;
+    }
+
+    @Action("/user/info/update")
+    public void getUserInfoInGame(BaseResponse response) {
+        if (response.getStatus()) {
+            User user = gson.fromJson(response.getResult(), User.class);
+
+            gameView.setUsernameLabel(user.getUsername());
+            gameView.setScoreLabel(String.valueOf(user.getCurrentPoint()));
+            gameView.setRankLabel(String.valueOf(user.getCurrentRank()));
+        }
     }
 
     @Action("/question")
@@ -59,28 +69,34 @@ public class GameController implements Runnable, RouterMapping, ViewController {
         });
     }
 
+    private void quitGame() {
+        try {
+            BaseRequest request = new BaseRequest("/api/room/exit");
+            connection.sendMessageToServer(request, response -> Popup.notify("Thông báo", "Bạn đã thoát trò chơi"));
+        } catch (Exception ex) {
+            log.error("Cannot exit room: ", ex);
+        }
+
+        HomeController.getInstance().run();
+    }
+
     @Override
     public void run() {
         log.info("Initialize game controller successfully");
         openView();
+
+        gameView.getAnswerField().addActionListener(event -> submitAnswer());
+        gameView.getQuitButton().addActionListener(event -> quitGame());
     }
 
     @Override
     public void openView() {
         gameView.open();
-        gameView.getSubmitButton().addActionListener(event -> submitAnswer());
 
         gameView.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                try {
-                    BaseRequest request = new BaseRequest("/api/room/exit");
-                    connection.sendMessageToServer(request, response -> Popup.notify("Thông báo", "Bạn đã thoát trò chơi"));
-                } catch (Exception ex) {
-                    log.error("Cannot exit room: ", ex);
-                }
-
-                HomeController.getInstance().run();
+                quitGame();
             }
         });
     }

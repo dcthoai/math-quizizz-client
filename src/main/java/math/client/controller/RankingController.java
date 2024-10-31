@@ -1,6 +1,5 @@
 package math.client.controller;
 
-import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.User;
 import math.client.router.Action;

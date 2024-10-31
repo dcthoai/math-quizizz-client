@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
-import math.client.service.utils.SessionManager;
 import math.client.view.AbstractView;
 import math.client.view.FriendListView;
 
@@ -20,7 +19,6 @@ public class FriendController implements RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(FriendController.class);
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
-    private static final SessionManager sessionManager = SessionManager.getInstance();
     private static final FriendListView friendListView = FriendListView.getInstance();
     private static final FriendController instance = new FriendController();
     private final Gson gson = new Gson();

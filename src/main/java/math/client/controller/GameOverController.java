@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
-import math.client.service.utils.SessionManager;
 import math.client.view.AbstractView;
 import math.client.view.GameOverView;
 
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 public class GameOverController implements RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(GameOverController.class);
-    private static final SessionManager sessionManager = SessionManager.getInstance();
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
     private static final GameOverView gameOverView =  GameOverView.getInstance();
     private static final GameOverController instance = new GameOverController();

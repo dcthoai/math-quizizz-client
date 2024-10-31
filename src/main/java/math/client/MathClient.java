@@ -4,7 +4,6 @@ import math.client.common.Constants;
 import math.client.controller.UserController;
 import math.client.router.Router;
 import math.client.service.utils.ConnectionUtil;
-import math.client.service.utils.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +25,6 @@ public class MathClient {
         // Create a separate thread to listen for responses from the socket server
         pool.execute(() -> ConnectionUtil.getInstance().run());
         Router.getInstance().run();
-        SessionManager.getInstance().run();
         UserController.getInstance().run();
 
         log.info("Application is running");
