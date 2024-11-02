@@ -3,37 +3,28 @@ package math.client.dto.response;
 @SuppressWarnings("unused")
 public class Question {
 
-    private String question, answer, expression;
+    private String numbers, target;
 
     public Question() {}
 
-    public Question(String question, String answer, String expression) {
-        this.answer = answer;
-        this.question = question;
-        this.expression = expression;
+    public Question(String numbers, String target) {
+        this.numbers = numbers;
+        this.target = target;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getNumbers() {
+        return numbers;
     }
 
-    public String getAnswer() {
-        return answer;
+    public void setNumbers(String numbers) {
+        this.numbers = numbers;
     }
 
-    public String getExpression() {
-        return expression;
+    public String getTarget() {
+        return target;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
+    public void setTarget(String target) {
+        this.target = target;
     }
 }

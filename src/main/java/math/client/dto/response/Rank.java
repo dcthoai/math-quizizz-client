@@ -3,31 +3,40 @@ package math.client.dto.response;
 @SuppressWarnings("unused")
 public class Rank {
 
-    Integer ID, userID, score;
+    private int ID, score, userRank;
+    private String username;
 
     public Rank() {}
 
-    public Integer getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(Integer ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
-    public Integer getUserID() {
-        return userID;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Integer getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getUserRank() {
+        return userRank;
+    }
+
+    public void setUserRank(int userRank) {
+        this.userRank = userRank;
     }
 }

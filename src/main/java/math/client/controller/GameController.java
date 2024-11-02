@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.BaseResponse;
 import math.client.dto.response.GameResult;
+import math.client.dto.response.Question;
 import math.client.dto.response.User;
 import math.client.router.Action;
 import math.client.router.RouterMapping;
@@ -51,7 +52,8 @@ public class GameController implements RouterMapping, ViewController {
     @Action("/question")
     @SuppressWarnings("unused")
     public void getQuestion(BaseResponse response) {
-        gameView.getQuestionLabel().setText(response.getResult());
+        Question question = gson.fromJson(response.getResult(), Question.class);
+        gameView.getQuestionLabel().setText("Mảng số: " + question.getNumbers() + ". Target: " + question.getTarget());
     }
 
     @Action("/invalid-answer")

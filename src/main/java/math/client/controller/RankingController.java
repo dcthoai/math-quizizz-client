@@ -1,7 +1,10 @@
 package math.client.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import math.client.dto.request.BaseRequest;
-import math.client.dto.response.User;
+import math.client.dto.response.Rank;
 import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
@@ -11,6 +14,7 @@ import math.client.view.RankView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Action("/ranking")
@@ -21,6 +25,7 @@ public class RankingController implements Runnable, RouterMapping, ViewControlle
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
     private static final RankingController instance = new RankingController();
     private static final RankView rankView = RankView.getInstance();
+    private final Gson gson = new Gson();
 
     private RankingController() {}
 
@@ -29,12 +34,18 @@ public class RankingController implements Runnable, RouterMapping, ViewControlle
     }
 
     private void getRanking() {
-        BaseRequest request = new BaseRequest("/api/ranking");
-//        connection.sendMessageToServer(request, response -> setRankingView((List<User>) response.getResult()));
+        BaseRequest request = new BaseRequest("/api/ranking/all");
+
+        connection.sendMessageToServer(request, response -> {
+            Type ranksType = new TypeToken<List<Rank>>() {}.getType();
+            List<Rank> ranks = gson.fromJson(response.getResult(), ranksType);
+
+            setRankingView(ranks);
+        });
     }
 
-    private void setRankingView(List<User> users) {
-        rankView.setDataToTable(users);
+    private void setRankingView(List<Rank> ranks) {
+        rankView.setDataToTable(ranks);
     }
 
     @Override
@@ -46,7 +57,7 @@ public class RankingController implements Runnable, RouterMapping, ViewControlle
 
     @Override
     public void openView() {
-        rankView.open();
+        run();
     }
 
     @Override

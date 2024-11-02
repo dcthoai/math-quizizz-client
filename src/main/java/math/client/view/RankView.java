@@ -1,5 +1,6 @@
 package math.client.view;
 
+import math.client.dto.response.Rank;
 import math.client.dto.response.User;
 
 import javax.swing.JLabel;
@@ -96,12 +97,14 @@ public class RankView extends AbstractView {
         getContentPane().add(panel);
     }
 
-    public void setDataToTable(List<User> users) {
-        for (User user : users) {
+    public void setDataToTable(List<Rank> ranks) {
+        tableModel.setRowCount(0);
+
+        for (Rank rank : ranks) {
             tableModel.addRow(new Object[]{
-                    user.getUsername(),
-                    user.getScore(),
-                    user.getRank()
+                    rank.getUsername(),
+                    rank.getScore(),
+                    rank.getUserRank()
             });
         }
     }
