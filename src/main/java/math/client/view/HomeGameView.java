@@ -28,6 +28,7 @@ public class HomeGameView extends AbstractView {
     private ButtonStyle findRoomButton;
     private ButtonStyle friendListButton;
     private ButtonStyle rankingButton;
+    private ButtonStyle gameHistoriesButton;
     private ButtonStyle logoutButton;
     private static final HomeGameView instance = new HomeGameView();
 
@@ -117,9 +118,9 @@ public class HomeGameView extends AbstractView {
         createRoomButton = new ButtonStyle("Tạo phòng", 150, 30);
         findRoomButton = new ButtonStyle("Tìm Phòng", 150, 30);
         friendListButton = new ButtonStyle("Danh sách bạn bè", 150, 30);
+        gameHistoriesButton = new ButtonStyle("Lịch sử đấu", 150, 30);
         rankingButton = new ButtonStyle("Bảng xếp hạng", 150, 30);
         logoutButton = new ButtonStyle("Đăng xuất", 150, 30);
-
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
@@ -136,6 +137,8 @@ public class HomeGameView extends AbstractView {
         gbc.gridx = 0;
         gbc.gridy = 1;
         buttonPanel.add(friendListButton, gbc);
+        gbc.gridx = 1;
+        buttonPanel.add(gameHistoriesButton, gbc);
         gbc.gridx = 2;
         buttonPanel.add(logoutButton, gbc);
 
@@ -156,6 +159,10 @@ public class HomeGameView extends AbstractView {
 
     public JButton getRankingButton() {
         return rankingButton;
+    }
+
+    public ButtonStyle getGameHistoriesButton() {
+        return gameHistoriesButton;
     }
 
     public JButton getLogoutButton() {

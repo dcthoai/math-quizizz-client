@@ -48,7 +48,7 @@ public class RankView extends AbstractView {
         gbc.insets = new Insets(20, 10, 10, 10);
         panel.add(labelListRank, gbc);
 
-        String[] columnNames = {"Nickname", "Score", "Rank"};
+        String[] columnNames = {"Xếp hạng", "Người chơi", "Tổng điểm"};
 
         tableModel = new DefaultTableModel(columnNames, 0);
         JTable rankTable = new JTable(tableModel);
@@ -65,8 +65,8 @@ public class RankView extends AbstractView {
 
         rankTable.getColumnModel().getColumn(0).setMinWidth(60);
         rankTable.getColumnModel().getColumn(0).setMaxWidth(150);
-        rankTable.getColumnModel().getColumn(1).setMinWidth(60);
-        rankTable.getColumnModel().getColumn(1).setMaxWidth(150);
+        rankTable.getColumnModel().getColumn(1).setMinWidth(100);
+        rankTable.getColumnModel().getColumn(1).setMaxWidth(200);
         rankTable.getColumnModel().getColumn(2).setMinWidth(60);
         rankTable.getColumnModel().getColumn(2).setMaxWidth(150);
 
@@ -102,9 +102,9 @@ public class RankView extends AbstractView {
 
         for (Rank rank : ranks) {
             tableModel.addRow(new Object[]{
+                    rank.getUserRank(),
                     rank.getUsername(),
-                    rank.getScore(),
-                    rank.getUserRank()
+                    rank.getScore()
             });
         }
     }

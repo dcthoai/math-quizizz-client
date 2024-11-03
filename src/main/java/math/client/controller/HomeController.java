@@ -2,17 +2,28 @@ package math.client.controller;
 
 import com.google.gson.Gson;
 
+import com.google.gson.reflect.TypeToken;
 import math.client.common.Common;
 import math.client.dto.request.BaseRequest;
+import math.client.dto.response.GameHistory;
+import math.client.dto.response.Rank;
 import math.client.dto.response.User;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
 import math.client.view.AbstractView;
+import math.client.view.GameHistoryView;
 import math.client.view.HomeGameView;
 import math.client.view.Popup;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class HomeController implements Runnable, RouterMapping, ViewController {
@@ -20,6 +31,7 @@ public class HomeController implements Runnable, RouterMapping, ViewController {
     private static final Logger log = LoggerFactory.getLogger(HomeController.class);
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
     private static final HomeGameView homeView = HomeGameView.getInstance();
+    private static final GameHistoryView gameHistoryView = GameHistoryView.getInstance();
     private static final HomeController instance = new HomeController();
     private final Gson gson = new Gson();
 
@@ -47,6 +59,31 @@ public class HomeController implements Runnable, RouterMapping, ViewController {
     private void viewRanking() {
         homeView.hideView();
         Common.openViewByController(RankingController.getInstance(), instance);
+    }
+
+    private void viewGameHistories() {
+        homeView.hideView();
+        gameHistoryView.open();
+
+        BaseRequest request = new BaseRequest("/api/game/histories");
+
+        connection.sendMessageToServer(request, response -> {
+            Type gameHistoriesType = new TypeToken<List<GameHistory>>() {}.getType();
+            List<GameHistory> gameHistories = gson.fromJson(response.getResult(), gameHistoriesType);
+
+            if (Objects.isNull(gameHistories))
+                gameHistoryView.updateUserGameHistories(new ArrayList<>());
+
+            gameHistoryView.updateUserGameHistories(gameHistories);
+        });
+
+        gameHistoryView.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                gameHistoryView.exit();
+                homeView.open();
+            }
+        });
     }
 
     private void getUserInfo() {
@@ -109,6 +146,7 @@ public class HomeController implements Runnable, RouterMapping, ViewController {
         homeView.getFindRoomButton().addActionListener(event -> findRoom());
         homeView.getRankingButton().addActionListener(event -> viewRanking());
         homeView.getFriendListButton().addActionListener(event -> viewFriendList());
+        homeView.getGameHistoriesButton().addActionListener(event -> viewGameHistories());
         homeView.getLogoutButton().addActionListener(event -> logout());
     }
 }
