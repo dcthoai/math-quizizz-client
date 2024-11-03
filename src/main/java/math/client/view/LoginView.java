@@ -1,5 +1,7 @@
 package math.client.view;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Dimension;
@@ -26,7 +28,7 @@ public class LoginView extends AbstractView {
     }
 
     private LoginView() {
-        super("Đăng nhập", 500, 300);
+        super("Math Quizzes Game", 500, 320);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         generateView();
@@ -52,39 +54,50 @@ public class LoginView extends AbstractView {
         loginButton.setPreferredSize(new Dimension(100, 30));
         registerButton.setPreferredSize(new Dimension(100, 30));
 
-        // Positioning the Username label
+        JLabel title = new JLabel("Đăng nhập");
+        title.setFont(new Font("Roboto", Font.BOLD, 20));
+
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(15, 15, 10, 15);  // Padding
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 10, 20, 10);
+        panel.add(title, gbc);
+
+        // Positioning the Username label
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(10, 15, 10, 15);  // Padding
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(userLabel, gbc);
 
         // Positioning the User text field
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(username, gbc);
 
         // Positioning the Password label
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.WEST;
         panel.add(passwordLabel, gbc);
 
         // Positioning the Password text field
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(password, gbc);
 
         // Create a sub-panel to hold the buttons side by side
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.add(registerButton);
         buttonPanel.add(loginButton);
 
         // Positioning the Button panel
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(buttonPanel, gbc);

@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JFrame;
 
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Dimension;
@@ -29,7 +30,7 @@ public class RegisterView extends AbstractView {
     }
 
     private RegisterView() {
-        super("Đăng ký", 500, 320);
+        super("Đăng ký", 500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         generateView();
@@ -58,40 +59,51 @@ public class RegisterView extends AbstractView {
         backButton.setPreferredSize(new Dimension(100, 30));
         registerButton.setPreferredSize(new Dimension(100, 30));
 
-        // Positioning the Username label
+        JLabel title = new JLabel("Đăng ký");
+        title.setFont(new Font("Roboto", Font.BOLD, 20));
+
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 10, 20, 10);
+        panel.add(title, gbc);
+
+        // Positioning the Username label
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
         gbc.insets = new Insets(10, 15, 10, 15);  // Padding
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(userLabel, gbc);
 
         // Positioning the User text field
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(username, gbc);
 
         // Positioning the Password label
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.WEST;
         panel.add(passwordLabel, gbc);
 
         // Positioning the Password text field
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(password, gbc);
 
         // Positioning the Re-password label
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.fill = GridBagConstraints.WEST;
         panel.add(repeatPasswordLabel, gbc);
 
         // Positioning the Password text field
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(rePassword, gbc);
 
@@ -102,7 +114,7 @@ public class RegisterView extends AbstractView {
 
         // Positioning the Button panel
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(buttonPanel, gbc);

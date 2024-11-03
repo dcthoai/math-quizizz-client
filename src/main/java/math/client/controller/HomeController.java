@@ -81,6 +81,7 @@ public class HomeController implements Runnable, RouterMapping, ViewController {
     @Override
     public void openView() {
         homeView.open();
+        getUserInfo();
     }
 
     @Override
