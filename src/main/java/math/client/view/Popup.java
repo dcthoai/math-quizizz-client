@@ -77,9 +77,7 @@ public class Popup {
             jFrame.dispose();
         });
 
-        cancelButton.addActionListener(event -> {
-            jFrame.dispose();
-        });
+        cancelButton.addActionListener(event -> jFrame.dispose());
 
         // Positioning the label
         gbc.gridx = 0;

@@ -1,7 +1,6 @@
 package math.client.view;
 
 import math.client.dto.response.Rank;
-import math.client.dto.response.User;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

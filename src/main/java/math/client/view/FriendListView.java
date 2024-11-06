@@ -108,7 +108,7 @@ public class FriendListView extends AbstractView {
 
         users.forEach(user -> {
             String status = user.getLoginStatus() ? "Online" : "Offline";
-            String[] newRow = {user.getUsername(), String.valueOf(user.getScore()), String.valueOf(user.getRank()), status};
+            String[] newRow = { "  " + user.getUsername(), String.valueOf(user.getScore()), String.valueOf(user.getRank()), status };
             tableModel.addRow(newRow);
         });
 

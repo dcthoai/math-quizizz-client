@@ -1,6 +1,5 @@
 package math.client.view;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;

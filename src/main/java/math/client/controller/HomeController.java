@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import math.client.common.Common;
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.GameHistory;
-import math.client.dto.response.Rank;
 import math.client.dto.response.User;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;

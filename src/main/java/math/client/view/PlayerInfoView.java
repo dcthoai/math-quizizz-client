@@ -1,15 +1,11 @@
 package math.client.view;
 
-import math.client.dto.response.User;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
+import math.client.dto.response.User;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -18,15 +14,13 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Dimension;
 
-public class PlayerInfoView extends AbstractView implements Runnable {
-    private final String nickname = "";
-    private final int score = 0;
-    private final int rank = 0;
-    private final int totalGames = 0;
-    private final double winRate = 0;
-    private final boolean isFriend = false;
-    private static User user;
-    private static final Logger log = LoggerFactory.getLogger(PlayerInfoView.class);
+public class PlayerInfoView extends AbstractView {
+    private String nickname = "";
+    private int score = 0;
+    private int rank = 0;
+    private int totalGames = 0;
+    private double winRate = 0;
+    private boolean isFriend = false;
     private static final PlayerInfoView instance = new PlayerInfoView();
 
     public static PlayerInfoView getInstance() {
@@ -34,7 +28,7 @@ public class PlayerInfoView extends AbstractView implements Runnable {
     }
 
     private PlayerInfoView() {
-        super("Player Information", 400, 300);
+        super("Thông tin người chơi", 400, 300);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         generateView();
     }
@@ -114,10 +108,10 @@ public class PlayerInfoView extends AbstractView implements Runnable {
         if (isFriend) {
             panel.add(createLabel("Bạn bè"), gbc);
         } else {
-            ButtonStyle addFriendButton = new ButtonStyle("Kết bạn", 80, 30);
-            addFriendButton.addActionListener(e -> {
-                JOptionPane.showMessageDialog(this, "Kết bạn với " + nickname);
-            });
+            ButtonStyle addFriendButton = new ButtonStyle("Kết bạn", 150, 30);
+            addFriendButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "Kết bạn với " + nickname)
+            );
             panel.add(addFriendButton, gbc);
         }
     }
@@ -128,9 +122,15 @@ public class PlayerInfoView extends AbstractView implements Runnable {
         return label;
     }
 
-    @Override
-    public void run() {
-        log.info("Initialize user info view successfully");
-        open();
+    public void setUserInfo(User user) {
+        this.nickname = user.getUsername();
+        this.score = user.getScore();
+        this.rank = user.getRank();
+        this.totalGames = user.getGamesPlayed();
+        this.winRate = user.getWinRate();
+    }
+
+    public void setFriendStatus(boolean status) {
+        this.isFriend = status;
     }
 }

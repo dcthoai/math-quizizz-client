@@ -27,7 +27,6 @@ public class GameOverView extends AbstractView {
     private JLabel totalPoint;
     private JLabel rank;
     private DefaultTableModel ranksTable;
-    private JTable rankingTable;
     private JButton backButton;
     private boolean isWin = false;
 
@@ -82,7 +81,7 @@ public class GameOverView extends AbstractView {
         // Leaderboard table
         String[] columnNames = {"Xếp hạng", "Tên người chơi", "Điểm số"};
         ranksTable = new DefaultTableModel(columnNames, 0);
-        rankingTable = new JTable(ranksTable);
+        JTable rankingTable = new JTable(ranksTable);
         rankingTable.setFillsViewportHeight(true);
         rankingTable.setDefaultEditor(Object.class, null);
         rankingTable.setBorder(null);
@@ -161,9 +160,5 @@ public class GameOverView extends AbstractView {
 
     public JButton getBackButton() {
         return backButton;
-    }
-
-    public JTable getRankingTable() {
-        return rankingTable;
     }
 }
