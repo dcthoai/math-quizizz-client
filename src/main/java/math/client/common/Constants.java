@@ -27,6 +27,9 @@ public interface Constants {
     Integer SOCKET_INVALID_DATA = 4000;
     Integer UNKNOWN_SOCKET_SERVER = 5000;
 
+    String TYPE_FRIENDSHIP = "Mời";
+    String TYPE_PLAYER = "Kết bạn";
+
     String ANSI_RESET = "\u001B[0m";
     String ANSI_RED = "\u001B[31m";
     String ANSI_GREEN = "\u001B[32m";

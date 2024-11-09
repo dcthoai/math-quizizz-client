@@ -1,9 +1,9 @@
 package math.client.view;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import math.client.dto.response.User;
 
@@ -13,14 +13,17 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 
 public class PlayerInfoView extends AbstractView {
-    private String nickname = "";
-    private int score = 0;
-    private int rank = 0;
-    private int totalGames = 0;
-    private double winRate = 0;
-    private boolean isFriend = false;
+
+    private JLabel nicknameLabel;
+    private JLabel scoreLabel;
+    private JLabel rankLabel;
+    private JLabel totalGamesLabel;
+    private JLabel winRateLabel;
+    private JPanel infoPanel;
+    private JButton statusFriendButton;
     private static final PlayerInfoView instance = new PlayerInfoView();
 
     public static PlayerInfoView getInstance() {
@@ -28,7 +31,7 @@ public class PlayerInfoView extends AbstractView {
     }
 
     private PlayerInfoView() {
-        super("Thông tin người chơi", 400, 300);
+        super("Thông tin người chơi", 400, 350);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         generateView();
     }
@@ -47,7 +50,7 @@ public class PlayerInfoView extends AbstractView {
         mainPanel.add(labelPanel, gbc);
 
         // Panel cho thông tin người chơi
-        JPanel infoPanel = createInfoPanel();
+        infoPanel = createInfoPanel();
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 10, 10, 10);
         mainPanel.add(infoPanel, gbc);
@@ -81,39 +84,38 @@ public class PlayerInfoView extends AbstractView {
         infoPanel.setBorder(new LineBorder(Color.BLACK, 1));
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        addInfoRow(infoPanel, gbc, "Nickname:", nickname);
-        addInfoRow(infoPanel, gbc, "Số trận đã chơi:", String.valueOf(totalGames));
-        addInfoRow(infoPanel, gbc, "Tỉ lệ thắng:", String.format("%.2f%%", winRate * 100));
-        addInfoRow(infoPanel, gbc, "Điểm:", String.valueOf(score));
-        addInfoRow(infoPanel, gbc, "Rank:", String.valueOf(rank));
+        nicknameLabel = createLabel("N/A");
+        scoreLabel = createLabel("0");
+        rankLabel = createLabel("0");
+        totalGamesLabel = createLabel("0");
+        winRateLabel = createLabel("0.0%");
+
+        addInfoRow(infoPanel, gbc, "Nickname:", nicknameLabel);
+        addInfoRow(infoPanel, gbc, "Số trận đã chơi:", totalGamesLabel);
+        addInfoRow(infoPanel, gbc, "Tỉ lệ thắng:", winRateLabel);
+        addInfoRow(infoPanel, gbc, "Điểm:", scoreLabel);
+        addInfoRow(infoPanel, gbc, "Rank:", rankLabel);
         addFriendStatus(infoPanel, gbc);
 
         return infoPanel;
     }
 
-    private void addInfoRow(JPanel panel, GridBagConstraints gbc, String label, String value) {
+    private void addInfoRow(JPanel panel, GridBagConstraints gbc, String label, JLabel valueLabel) {
         gbc.gridx = 0;
         gbc.gridy++;
         panel.add(createLabel(label), gbc);
         gbc.gridx = 1;
-        panel.add(createLabel(value), gbc);
+        panel.add(valueLabel, gbc);
     }
 
     private void addFriendStatus(JPanel panel, GridBagConstraints gbc) {
         gbc.gridx = 0;
         gbc.gridy++;
-        panel.add(createLabel("Trạng thái:"), gbc);
+        panel.add(createLabel("Thao tác:"), gbc);
         gbc.gridx = 1;
 
-        if (isFriend) {
-            panel.add(createLabel("Bạn bè"), gbc);
-        } else {
-            ButtonStyle addFriendButton = new ButtonStyle("Kết bạn", 150, 30);
-            addFriendButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Kết bạn với " + nickname)
-            );
-            panel.add(addFriendButton, gbc);
-        }
+        statusFriendButton = new ButtonStyle("N/A", 150, 30);
+        panel.add(statusFriendButton, gbc);
     }
 
     private JLabel createLabel(String text) {
@@ -123,14 +125,22 @@ public class PlayerInfoView extends AbstractView {
     }
 
     public void setUserInfo(User user) {
-        this.nickname = user.getUsername();
-        this.score = user.getScore();
-        this.rank = user.getRank();
-        this.totalGames = user.getGamesPlayed();
-        this.winRate = user.getWinRate();
+        nicknameLabel.setText(user.getUsername());
+        scoreLabel.setText(String.valueOf(user.getScore()));
+        rankLabel.setText(String.valueOf(user.getRank()));
+        totalGamesLabel.setText(String.valueOf(user.getGamesPlayed()));
+        winRateLabel.setText(String.format("%.2f%%", user.getWinRate()));
+
+        infoPanel.revalidate();
+        infoPanel.repaint();
     }
 
-    public void setFriendStatus(boolean status) {
-        this.isFriend = status;
+    public JButton getStatusButton(String type) {
+        statusFriendButton.setText(type);
+
+        for (ActionListener actionListener : statusFriendButton.getActionListeners())
+            statusFriendButton.removeActionListener(actionListener);
+
+        return statusFriendButton;
     }
 }

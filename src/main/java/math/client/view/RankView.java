@@ -1,5 +1,6 @@
 package math.client.view;
 
+import javax.swing.table.TableModel;
 import math.client.dto.response.Rank;
 
 import javax.swing.JLabel;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class RankView extends AbstractView {
 
+    private JTable rankTable;
     private DefaultTableModel tableModel;
     private static final RankView instance = new RankView();
 
@@ -50,7 +52,7 @@ public class RankView extends AbstractView {
         String[] columnNames = {"Xếp hạng", "Người chơi", "Tổng điểm"};
 
         tableModel = new DefaultTableModel(columnNames, 0);
-        JTable rankTable = new JTable(tableModel);
+        rankTable = new JTable(tableModel);
         rankTable.setFillsViewportHeight(true);
         rankTable.setDefaultEditor(Object.class, null);
         rankTable.setBorder(null);
@@ -106,5 +108,9 @@ public class RankView extends AbstractView {
                     rank.getScore()
             });
         }
+    }
+
+    public JTable getTable() {
+        return rankTable;
     }
 }

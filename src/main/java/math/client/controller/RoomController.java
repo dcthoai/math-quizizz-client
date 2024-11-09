@@ -52,9 +52,10 @@ public class RoomController implements RouterMapping, ViewController {
                 connection.sendMessageToServer(newRequest);
             });
 
-            roomView.getInviteButton().addActionListener(event ->
-                Common.openViewByController(FriendInviteController.getInstance(), instance)
-            );
+            roomView.getInviteButton().addActionListener(event -> {
+                closeView();
+                Common.openViewByController(FriendController.getInstance(), instance);
+            });
         });
     }
 

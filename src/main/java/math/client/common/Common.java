@@ -1,9 +1,11 @@
 package math.client.common;
 
 import math.client.controller.ViewController;
+import math.client.view.AbstractView;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Objects;
 
 /**
@@ -16,7 +18,13 @@ public class Common {
     public static void openViewByController(ViewController controller, ViewController parentViewController) {
         if (Objects.nonNull(controller)) {
             controller.openView();
-            controller.getMainView().addWindowListener(new WindowAdapter() {
+            AbstractView view = controller.getMainView();
+
+            for (WindowListener listener : view.getWindowListeners()) {
+                view.removeWindowListener(listener);
+            }
+
+            view.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
                     if (Objects.nonNull(parentViewController)) {
