@@ -1,6 +1,7 @@
 package math.client.view;
 
-import javax.swing.JList;
+import javax.swing.BoxLayout;
+import math.client.dto.response.FriendRequest;
 import math.client.dto.response.User;
 
 import javax.swing.WindowConstants;
@@ -17,13 +18,16 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Color;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FriendListView extends AbstractView {
 
     private JTable friendTable;
     private DefaultTableModel friendTableModel;
-    private JList<JPanel> friendRequestList;
+    private JPanel friendRequestPanel;
+    private List<FriendRequestComponent> requestComponents = new ArrayList<>();
     private static final FriendListView instance = new FriendListView();
 
     public static FriendListView getInstance() {
@@ -61,11 +65,10 @@ public class FriendListView extends AbstractView {
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(friendRequestLabel, gbc);
 
-        List<String> userList = List.of("user1", "userxc xc2", "user3xc ", "userx x4", "sdfjds", "sdffv s", "sidfs", "qw8ad3q", "2398hf");
-        friendRequestList = FriendRequestComponent.getListView(userList);
-        friendRequestList.setVisibleRowCount(3);
+        friendRequestPanel = new JPanel();
+        friendRequestPanel.setLayout(new BoxLayout(friendRequestPanel, BoxLayout.Y_AXIS));
 
-        JScrollPane friendRequestScrollPane = new JScrollPane(friendRequestList);
+        JScrollPane friendRequestScrollPane = new JScrollPane(friendRequestPanel);
         friendRequestScrollPane.setBorder(null);
 
         gbc.gridx = 0;
@@ -144,8 +147,23 @@ public class FriendListView extends AbstractView {
         friendTableModel.fireTableDataChanged();
     }
 
-    public void updateFriendRequests(List<User> users) {
+    public void updateFriendRequests(List<FriendRequest> friendRequests) {
+        requestComponents.clear();
+        friendRequestPanel.removeAll();
 
+        requestComponents = friendRequests.stream().map(friendRequest -> {
+            FriendRequestComponent requestComponent = new FriendRequestComponent(friendRequest.getUserSendRequest(), friendRequest.getID());
+            friendRequestPanel.add(requestComponent.getPanel());
+
+            return requestComponent;
+        }).collect(Collectors.toList());
+
+        friendRequestPanel.revalidate();
+        friendRequestPanel.repaint();
+    }
+
+    public List<FriendRequestComponent> getRequestComponents() {
+        return requestComponents;
     }
 
     public JTable getFriendTable() {

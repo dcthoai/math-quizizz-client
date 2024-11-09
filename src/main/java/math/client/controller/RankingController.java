@@ -91,7 +91,14 @@ public class RankingController implements Runnable, RouterMapping, ViewControlle
     }
 
     private void sendFriendRequest(User user) {
-        System.out.println("ket bajn");
+        BaseRequest request = new BaseRequest("/api/friendship/add", String.valueOf(user.getID()));
+
+        connection.sendMessageToServer(request, response -> {
+            if (response.getStatus())
+                Popup.notify("Notify", "Gửi lời mời kết bạn thành công!");
+            else
+                Popup.notify("Error", response.getMessage());
+        });
     }
 
     @Override

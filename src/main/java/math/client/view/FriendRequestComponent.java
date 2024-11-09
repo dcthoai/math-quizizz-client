@@ -1,24 +1,24 @@
 package math.client.view;
 
-import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
 public class FriendRequestComponent {
 
     private final JPanel panel = new JPanel();
+    private final Integer friendRequestID;
+    private final JButton acceptButton;
+    private final JButton rejectButton;
 
-    public FriendRequestComponent(String username) {
+    public FriendRequestComponent(String userSendRequest, Integer friendRequestID) {
+        this.friendRequestID = friendRequestID;
         panel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -29,7 +29,7 @@ public class FriendRequestComponent {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1;
-        JLabel usernameLabel = new JLabel(username);
+        JLabel usernameLabel = new JLabel(userSendRequest);
         usernameLabel.setFont(new Font("Roboto", Font.BOLD, 14));
         panel.add(usernameLabel, gbc);
 
@@ -37,35 +37,35 @@ public class FriendRequestComponent {
         gbc.weightx = 0;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(10, 0, 0, 0);
-        panel.add(new ButtonStyle("Chấp nhận", 105, 25), gbc);
+        acceptButton = new ButtonStyle("Chấp nhận", 105, 25);
+        panel.add(acceptButton, gbc);
 
         gbc.gridx = 2;
         gbc.insets = new Insets(10, 10, 0, 10);
-        panel.add(new ButtonStyle("Từ chối", 85, 25), gbc);
+        rejectButton = new ButtonStyle("Từ chối", 85, 25);
+        panel.add(rejectButton, gbc);
+
+        acceptButton.setFocusable(true);
+        rejectButton.setFocusable(true);
 
         panel.setBackground(Color.WHITE);
+        panel.setFocusable(true);
+        panel.setRequestFocusEnabled(true);
+    }
+
+    public Integer getFriendRequestID() {
+        return friendRequestID;
+    }
+
+    public JButton getAcceptButton() {
+        return acceptButton;
+    }
+
+    public JButton getRejectButton() {
+        return rejectButton;
     }
 
     public JPanel getPanel() {
         return panel;
-    }
-
-    public static JList<JPanel> getListView(List<String> usernames) {
-        DefaultListModel<JPanel> model = new DefaultListModel<>();
-
-        for (String username : usernames) {
-            FriendRequestComponent requestComponent = new FriendRequestComponent(username);
-            model.addElement(requestComponent.getPanel());
-        }
-
-        JList<JPanel> listView = new JList<>(model);
-
-        listView.setBorder(new EmptyBorder(0, 0, 15, 0));
-        listView.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
-            value.setPreferredSize(new Dimension(list.getWidth(), value.getPreferredSize().height));
-            return value;
-        });
-
-        return listView;
     }
 }
