@@ -71,7 +71,8 @@ public class RoomController implements RouterMapping, ViewController {
 
             connection.sendMessageToServer(request, res -> {
                 if (res.getStatus()) {
-                    openView();
+                    Common.closeAllView();
+                    Common.openViewByController(instance, HomeController.getInstance());
                 } else {
                     Popup.notify("Error", res.getMessage());
                 }

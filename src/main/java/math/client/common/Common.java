@@ -1,8 +1,11 @@
 package math.client.common;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import math.client.controller.ViewController;
 import math.client.view.AbstractView;
 
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -43,5 +46,19 @@ public class Common {
     public static void closeViewByController(ViewController controller) {
         if (Objects.nonNull(controller))
             controller.closeView();
+    }
+
+    public static void closeAllView() {
+        Window[] windows = Window.getWindows();
+
+        for (Window window : windows) {
+            if (window instanceof JFrame) {
+                JFrame frame = (JFrame) window;
+                frame.dispose();
+            } else if (window instanceof JDialog) {
+                JDialog dialog = (JDialog) window;
+                dialog.dispose();
+            }
+        }
     }
 }

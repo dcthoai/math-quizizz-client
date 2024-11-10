@@ -3,6 +3,7 @@ package math.client.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import math.client.common.Common;
 import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
 import math.client.dto.request.FriendShipStatusRequest;
@@ -25,6 +26,9 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
@@ -49,7 +53,7 @@ public class FriendController implements RouterMapping, ViewController {
     private void getFriendRequestPending() {
         BaseRequest request = new BaseRequest("/api/friendship/pending");
 
-        connection.sendMessageToServer(request, response ->{
+        connection.sendMessageToServer(request, response -> {
             try {
                 Type listFriendRequestType = new TypeToken<List<FriendRequest>>() {}.getType();
                 List<FriendRequest> friendRequests = gson.fromJson(response.getResult(), listFriendRequestType);
@@ -154,8 +158,24 @@ public class FriendController implements RouterMapping, ViewController {
         BaseRequest request = new BaseRequest("/api/room/invite", user.getUsername());
 
         connection.sendMessageToServer(request, response -> {
-            if (Objects.nonNull(response) && !response.getStatus())
+            if (Objects.nonNull(response) && response.getStatus())
+                changeViewEvent();
+            else
                 Popup.notify("Thông báo", response.getMessage());
+        });
+    }
+
+    private void changeViewEvent() {
+        for (WindowListener listener : friendListView.getWindowListeners()) {
+            friendListView.removeWindowListener(listener);
+        }
+
+        friendListView.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeView();
+                Common.openViewByController(RoomController.getInstance(), HomeController.getInstance());
+            }
         });
     }
 
