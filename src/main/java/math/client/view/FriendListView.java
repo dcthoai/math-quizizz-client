@@ -35,9 +35,9 @@ public class FriendListView extends AbstractView {
     }
 
     private FriendListView() {
-        super("Danh sách bạn bè", 500, 450);
+        super("Danh sách bạn bè", 500, 420);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
+//        setResizable(false);
         generateView();
     }
 
@@ -51,7 +51,7 @@ public class FriendListView extends AbstractView {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(20, 10, 10, 10);
+        gbc.insets = new Insets(20, 10, 5, 10);
         panel.add(labelListFriend, gbc);
 
         // Friend request view
@@ -62,7 +62,7 @@ public class FriendListView extends AbstractView {
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(10, 10, 5, 10);
+        gbc.insets = new Insets(10, 10, 0, 10);
         panel.add(friendRequestLabel, gbc);
 
         friendRequestPanel = new JPanel();
@@ -75,8 +75,8 @@ public class FriendListView extends AbstractView {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
-        gbc.weighty = 0.25;
-        gbc.insets = new Insets(10, 10, 20, 10);
+        gbc.weighty = 0.3;
+        gbc.insets = new Insets(10, 10, 0, 10);
         panel.add(friendRequestScrollPane, gbc);
         // End friend request view
 
@@ -87,7 +87,7 @@ public class FriendListView extends AbstractView {
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(10, 10, 5, 10);
+        gbc.insets = new Insets(15, 10, 0, 10);
         panel.add(friendListLabel, gbc);
 
         String[] columnNames = {"Tên", "Tổng điểm", "Xếp hạng", "Trạng thái"};
@@ -138,8 +138,8 @@ public class FriendListView extends AbstractView {
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
-        gbc.weighty = 0.75;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.weighty = 0.7;
+        gbc.insets = new Insets(0, 10, 10, 10);
         panel.add(scrollPane, gbc);
 
         add(panel);

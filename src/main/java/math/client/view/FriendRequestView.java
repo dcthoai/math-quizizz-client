@@ -1,9 +1,9 @@
 package math.client.view;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 import javax.swing.JPanel;
-import javax.swing.JOptionPane;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,10 +28,11 @@ public class FriendRequestView extends AbstractView {
     }
 
     private FriendRequestView() {
-        super("Yêu cầu kết bạn", 400, 300);
-        initComponents();
+        super("Thông báo", 400, 300);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        initComponents();
+        startCountdown();
     }
 
     private void initComponents() {
@@ -40,7 +41,7 @@ public class FriendRequestView extends AbstractView {
         gbc.insets = new Insets(10, 10, 10, 10);
 
 
-        JLabel frameLabel = new JLabel("Yêu cầu kết bạn");
+        JLabel frameLabel = new JLabel("Lời mời chơi game");
         frameLabel.setFont(new Font("Roboto", Font.BOLD, 24));
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -49,7 +50,7 @@ public class FriendRequestView extends AbstractView {
         panel.add(frameLabel, gbc);
 
         // Request title label
-        JLabel requestTitleLabel = new JLabel("Bạn nhận được một lời mời kết bạn", JLabel.CENTER);
+        JLabel requestTitleLabel = new JLabel("Bạn nhận được một lời mời chơi game từ: ", JLabel.CENTER);
         requestTitleLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
         requestTitleLabel.setForeground(new Color(0, 102, 204));
         gbc.gridy = 1;
@@ -58,7 +59,7 @@ public class FriendRequestView extends AbstractView {
         panel.add(requestTitleLabel, gbc);
 
         // Request from label
-        requestFromLabel = new JLabel("Từ " + "(ID=" + ")", JLabel.CENTER);
+        requestFromLabel = new JLabel("", JLabel.CENTER);
         requestFromLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
         requestFromLabel.setForeground(new Color(0, 102, 204));
         gbc.gridy = 2;
@@ -75,52 +76,47 @@ public class FriendRequestView extends AbstractView {
         gbc.gridwidth = 2;
         panel.add(buttonPanel, gbc);
 
-        autoCloseLabel = new JLabel("Tự động đóng sau 10 giây", JLabel.CENTER);
+        autoCloseLabel = new JLabel("Tự động đóng sau 30 giây", JLabel.CENTER);
         gbc.gridy = 4;
         panel.add(autoCloseLabel, gbc);
 
         add(panel);
+    }
 
-        // Timer to auto-close the window after 10 seconds
+    private void startCountdown() {
+        // Timer to auto-close the window after 30 seconds
         timer = new Timer(1000, new ActionListener() {
-            int count = 10;
+            int count = 30;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 count--;
+
                 if (count >= 0) {
                     autoCloseLabel.setText("Tự động đóng trong " + count + " giây");
                 } else {
-                    ((Timer) (e.getSource())).stop();
                     disposeFrame();
                 }
             }
         });
+
         timer.setInitialDelay(0);
         timer.start();
 
-//        acceptButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                handleAccept();
-//            }
-//        });
-
-        declineButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleDecline();
-            }
-        });
-    }
-
-    private void handleDecline() {
-        timer.stop();
-        JOptionPane.showMessageDialog(this, "Bạn đã từ chối lời mời kết bạn!");
-        dispose();
+        declineButton.addActionListener(event -> disposeFrame());
     }
 
     private void disposeFrame() {
+        timer.stop();
         this.dispose();
+    }
+
+    public void openView(String requestUsername) {
+        this.requestFromLabel.setText(requestUsername);
+        open();
+    }
+
+    public JButton getAcceptButton() {
+        return acceptButton;
     }
 }

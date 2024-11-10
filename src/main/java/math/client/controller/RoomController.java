@@ -6,11 +6,13 @@ import math.client.common.Common;
 import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
 import math.client.dto.response.BaseResponse;
+import math.client.dto.response.GameInvitation;
 import math.client.dto.response.Room;
 import math.client.router.Action;
 import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
 
+import math.client.view.FriendRequestView;
 import math.client.view.Popup;
 import math.client.view.RoomView;
 import math.client.view.AbstractView;
@@ -55,6 +57,24 @@ public class RoomController implements RouterMapping, ViewController {
             roomView.getInviteButton().addActionListener(event -> {
                 closeView();
                 Common.openViewByController(FriendController.getInstance(), instance);
+            });
+        });
+    }
+
+    @Action("/invite")
+    public void inviteFromFriend(BaseResponse response) {
+        GameInvitation gameInvitation = gson.fromJson(response.getResult(), GameInvitation.class);
+
+        FriendRequestView.getInstance().openView(gameInvitation.getInviter());
+        FriendRequestView.getInstance().getAcceptButton().addActionListener(event -> {
+            BaseRequest request = new BaseRequest("/api/room/join", gameInvitation.getRoomID());
+
+            connection.sendMessageToServer(request, res -> {
+                if (res.getStatus()) {
+                    openView();
+                } else {
+                    Popup.notify("Error", res.getMessage());
+                }
             });
         });
     }

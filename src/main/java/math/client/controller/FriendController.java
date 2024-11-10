@@ -151,8 +151,12 @@ public class FriendController implements RouterMapping, ViewController {
     }
 
     private void inviteFriendToGame(User user) {
-        BaseRequest request = new BaseRequest("/api/room/invite", user.getUsername(), "/room/invite");
-        connection.sendMessageToServer(request);
+        BaseRequest request = new BaseRequest("/api/room/invite", user.getUsername());
+
+        connection.sendMessageToServer(request, response -> {
+            if (Objects.nonNull(response) && !response.getStatus())
+                Popup.notify("Thông báo", response.getMessage());
+        });
     }
 
     @Override
