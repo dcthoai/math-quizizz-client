@@ -11,7 +11,7 @@ import math.client.router.RouterMapping;
 import math.client.service.utils.ConnectionUtil;
 import math.client.view.AbstractView;
 import math.client.view.GameHistoryView;
-import math.client.view.HomeGameView;
+import math.client.view.HomeView;
 import math.client.view.Popup;
 
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class HomeController implements Runnable, RouterMapping, ViewController {
 
     private static final Logger log = LoggerFactory.getLogger(HomeController.class);
     private static final ConnectionUtil connection = ConnectionUtil.getInstance();
-    private static final HomeGameView homeView = HomeGameView.getInstance();
+    private static final HomeView homeView = HomeView.getInstance();
     private static final GameHistoryView gameHistoryView = GameHistoryView.getInstance();
     private static final HomeController instance = new HomeController();
     private final Gson gson = new Gson();

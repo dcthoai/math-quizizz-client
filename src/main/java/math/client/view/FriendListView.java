@@ -62,7 +62,7 @@ public class FriendListView extends AbstractView {
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 10, 5, 10);
         panel.add(friendRequestLabel, gbc);
 
         friendRequestPanel = new JPanel();
@@ -75,10 +75,20 @@ public class FriendListView extends AbstractView {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
-        gbc.weighty = 0.4;
+        gbc.weighty = 0.25;
         gbc.insets = new Insets(10, 10, 20, 10);
         panel.add(friendRequestScrollPane, gbc);
         // End friend request view
+
+        JLabel friendListLabel = new JLabel("Danh sách bạn bè");
+        friendListLabel.setFont(new Font("Roboto", Font.BOLD, 13));
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(10, 10, 5, 10);
+        panel.add(friendListLabel, gbc);
 
         String[] columnNames = {"Tên", "Tổng điểm", "Xếp hạng", "Trạng thái"};
         friendTableModel = new DefaultTableModel(null, columnNames);
@@ -124,11 +134,11 @@ public class FriendListView extends AbstractView {
         JScrollPane scrollPane = new JScrollPane(friendTable);
 
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
-        gbc.weighty = 0.6;
+        gbc.weighty = 0.75;
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(scrollPane, gbc);
 

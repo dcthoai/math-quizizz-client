@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 import math.client.common.Constants;
 import math.client.dto.request.BaseRequest;
+import math.client.dto.request.FriendShipStatusRequest;
 import math.client.dto.response.FriendRequest;
 import math.client.dto.response.User;
 import math.client.router.RouterMapping;
@@ -26,6 +27,7 @@ import java.awt.event.MouseEvent;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class FriendController implements RouterMapping, ViewController {
@@ -112,6 +114,24 @@ public class FriendController implements RouterMapping, ViewController {
         listenerForFriendRequestList();
     }
 
+    private void updateFriendStatusRequest(Integer requestID, Integer status) {
+        FriendShipStatusRequest friendShipStatusRequest = new FriendShipStatusRequest();
+        friendShipStatusRequest.setID(requestID);
+        friendShipStatusRequest.setStatus(status);
+
+        BaseRequest request = new BaseRequest("/api/friendship/update", gson.toJson(friendShipStatusRequest));
+
+        connection.sendMessageToServer(request, response -> {
+            if (Objects.nonNull(response) && response.getStatus()) {
+                getFriendRequestPending(); // Update pending friend request view
+
+                if (status.equals(Constants.FRIENDSHIP_ACCEPT)) {
+                    getFriendShip();
+                }
+            }
+        });
+    }
+
     private void listenerForFriendRequestList() {
         List<FriendRequestComponent> requestComponents = friendListView.getRequestComponents();
 
@@ -120,10 +140,12 @@ public class FriendController implements RouterMapping, ViewController {
 
             requestComponent.getAcceptButton().addActionListener(event -> {
                 // Accept friend request
+                updateFriendStatusRequest(requestID, Constants.FRIENDSHIP_ACCEPT);
             });
 
             requestComponent.getRejectButton().addActionListener(event -> {
                 // Refuse friend request
+                updateFriendStatusRequest(requestID, Constants.FRIENDSHIP_REFUSE);
             });
         });
     }

@@ -30,6 +30,9 @@ public interface Constants {
     String TYPE_FRIENDSHIP = "Mời";
     String TYPE_PLAYER = "Kết bạn";
 
+    Integer FRIENDSHIP_ACCEPT = 1;
+    Integer FRIENDSHIP_REFUSE = 0;
+
     String ANSI_RESET = "\u001B[0m";
     String ANSI_RED = "\u001B[31m";
     String ANSI_GREEN = "\u001B[32m";
