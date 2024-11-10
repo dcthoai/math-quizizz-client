@@ -67,9 +67,9 @@ public class GameController implements RouterMapping, ViewController {
 
         connection.sendMessageToServer(request, response -> {
             if (response.getStatus()) {
-                gameView.getAnswerField().setText("You win");
+                gameView.getAnswerField().setText(response.getMessage());
             } else {
-                gameView.getAnswerField().setText("You lost");
+                gameView.getAnswerField().setText(response.getMessage());
             }
         });
     }

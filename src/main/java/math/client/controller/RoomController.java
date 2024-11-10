@@ -55,7 +55,7 @@ public class RoomController implements RouterMapping, ViewController {
             });
 
             roomView.getInviteButton().addActionListener(event -> {
-                closeView();
+                hideView();
                 Common.openViewByController(FriendController.getInstance(), instance);
             });
         });

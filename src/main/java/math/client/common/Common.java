@@ -20,7 +20,6 @@ public class Common {
 
     public static void openViewByController(ViewController controller, ViewController parentViewController) {
         if (Objects.nonNull(controller)) {
-            controller.openView();
             AbstractView view = controller.getMainView();
 
             for (WindowListener listener : view.getWindowListeners()) {
@@ -35,6 +34,8 @@ public class Common {
                     }
                 }
             });
+
+            controller.openView();
         }
     }
 

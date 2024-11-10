@@ -25,6 +25,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -110,9 +111,10 @@ public class SearchRoomController implements RouterMapping, ViewController {
                     }
                 });
             } else {
-                roomListView.updateListRooms(Collections.emptyList());
+                roomListView.updateListRooms(new ArrayList<>());
             }
         } catch (Exception e) {
+            roomListView.updateListRooms(new ArrayList<>());
             log.error("Cannot convert rooms data from response: ", e);
         }
     }
