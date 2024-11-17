@@ -1,6 +1,7 @@
 package math.client.view;
 
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -18,6 +19,7 @@ import java.awt.FlowLayout;
 public class GameView extends AbstractView {
 
     private JLabel questionLabel;
+    private JLabel answerLabel;
     private JTextField answerField;
     private ButtonStyle quitButton;
     private JLabel timeLabel;
@@ -45,6 +47,9 @@ public class GameView extends AbstractView {
 
         questionLabel = new JLabel();
         questionLabel.setFont(new Font("Roboto", Font.BOLD, 16));
+
+        answerLabel = new JLabel();
+        answerLabel.setFont(new Font("Roboto", Font.BOLD, 13));
 
         // Input field for answer
         answerField = new JTextField(20);
@@ -89,20 +94,36 @@ public class GameView extends AbstractView {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.insets = new Insets(10, 0, 50, 0);
+        gbc.insets = new Insets(10, 0, 35, 0);
         panel.add(infoPanel, gbc);
 
-        // Add question to the panel
+        JTextArea gameRulesLabel = getGameRules();
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(10, 20, 10, 20);
+        gbc.insets = new Insets(10, 15, 5, 15);
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(gameRulesLabel, gbc);
+
+        // Add question to the panel
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(5, 20, 10, 20);
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(questionLabel, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(5, 20, 10, 20);
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(answerLabel, gbc);
+
         // Add answer input field
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(answerField, gbc);
@@ -112,13 +133,27 @@ public class GameView extends AbstractView {
         buttonPanel.add(quitButton);
 
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(40, 0, 0, 0);
+        gbc.insets = new Insets(30, 0, 0, 0);
         panel.add(buttonPanel, gbc);
 
         add(panel);
+    }
+
+    private JTextArea getGameRules() {
+        JTextArea gameRulesLabel = new JTextArea();
+        gameRulesLabel.setFont(new Font("Roboto", Font.ITALIC, 12));
+        gameRulesLabel.setText("Tìm phép tính 3 toán hạng có kết quả như trên. Sử dụng mảng chữ số. Không dùng số âm và dấu ngoặc");
+        gameRulesLabel.setWrapStyleWord(true);
+        gameRulesLabel.setLineWrap(true);
+        gameRulesLabel.setEditable(false);
+        gameRulesLabel.setOpaque(false);
+        gameRulesLabel.setBackground(new Color(0, 0, 0, 0));
+        gameRulesLabel.setPreferredSize(new Dimension(300, 45));
+
+        return gameRulesLabel;
     }
 
     public void startCountdownTimer(Long time) {
@@ -174,5 +209,17 @@ public class GameView extends AbstractView {
 
     public void setRankLabel(String rank) {
         rankLabel.setText("Rank: " + rank);
+    }
+
+    public void setCorrectAnswer() {
+        answerLabel.setForeground(Color.GREEN);
+        answerLabel.setText("Câu trả lời đúng!");
+        answerField.setText("");
+    }
+
+    public void setIncorrectAnswer() {
+        answerLabel.setForeground(Color.RED);
+        answerLabel.setText("Câu trả lời sai!");
+        answerField.setText("");
     }
 }

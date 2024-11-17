@@ -67,8 +67,8 @@ public class FriendRequestView extends AbstractView {
         panel.add(requestFromLabel, gbc);
 
         // Accept and Decline Buttons
-        acceptButton = new ButtonStyle("Đồng ý", 80,  30);
-        declineButton = new ButtonStyle("Từ chối", 80, 30);
+        acceptButton = new ButtonStyle("Đồng ý", 100,  30);
+        declineButton = new ButtonStyle("Từ chối", 100, 30);
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.add(acceptButton);
         buttonPanel.add(declineButton);
@@ -84,19 +84,15 @@ public class FriendRequestView extends AbstractView {
     }
 
     private void startCountdown() {
-        // Timer to auto-close the window after 30 seconds
-        timer = new Timer(1000, new ActionListener() {
-            int count = 30;
+        // Timer to auto-close the window after 60 seconds
+        int[] count = new int[] {60};
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                count--;
-
-                if (count >= 0) {
-                    autoCloseLabel.setText("Tự động đóng trong " + count + " giây");
-                } else {
-                    disposeFrame();
-                }
+        timer = new Timer(1000, event -> {
+            if (count[0] > 0) {
+                autoCloseLabel.setText("Tự động đóng trong " + count[0] + " giây");
+                count[0] -= 1;
+            } else {
+                disposeFrame();
             }
         });
 
