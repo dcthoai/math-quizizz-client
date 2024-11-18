@@ -7,8 +7,8 @@ package math.client.common;
 @SuppressWarnings("unused")
 public interface Constants {
 
-    String SERVER_HOST = "localhost"; // ngrok host: 0.tcp.ap.ngrok.io
-    Integer SERVER_PORT = 8888;
+    String SERVER_HOST = "0.tcp.ap.ngrok.io"; // ngrok host: 0.tcp.ap.ngrok.io
+    Integer SERVER_PORT = 16521;
 
     String CONTROLLER_PACKAGE = "math.client.controller";
 

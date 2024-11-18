@@ -52,6 +52,7 @@ public class GameController implements RouterMapping, ViewController {
     @Action("/question")
     @SuppressWarnings("unused")
     public void getQuestion(BaseResponse response) {
+        gameView.hideAnswerLabel();
         Question question = gson.fromJson(response.getResult(), Question.class);
         gameView.getQuestionLabel().setText("Mảng số: " + question.getNumbers() + ". Target: " + question.getTarget());
     }
@@ -63,7 +64,7 @@ public class GameController implements RouterMapping, ViewController {
 
     private void submitAnswer() {
         String answer = gameView.getAnswerField().getText();
-        BaseRequest request = new BaseRequest("/api/game/answer", answer);
+        BaseRequest request = new BaseRequest("/api/game/answer", answer, "game/answer");
 
         connection.sendMessageToServer(request, response -> {
             if (response.getStatus()) {

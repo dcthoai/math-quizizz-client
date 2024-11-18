@@ -211,6 +211,10 @@ public class GameView extends AbstractView {
         rankLabel.setText("Rank: " + rank);
     }
 
+    public void hideAnswerLabel() {
+        answerLabel.setText("");
+    }
+
     public void setCorrectAnswer() {
         answerLabel.setForeground(Color.GREEN);
         answerLabel.setText("Câu trả lời đúng!");
