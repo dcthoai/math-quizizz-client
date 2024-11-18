@@ -212,7 +212,7 @@ public class GameView extends AbstractView {
     }
 
     public void hideAnswerLabel() {
-        answerLabel.setText("");
+        new Timer(3000, event -> answerLabel.setText("")).start();
     }
 
     public void setCorrectAnswer() {
